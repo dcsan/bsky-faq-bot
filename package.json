@@ -1,0 +1,21 @@
+{
+  "name": "bsky-faq-bot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "many",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "easy-bsky-bot-sdk": "file:../easy-bsky-bot-sdk"
+  }
+}
