@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
+import { dispatchEvent } from "./commands/dispatcher";
 
-// load environment variables from .env file
 dotenv.config();
 
 async function main() {
@@ -30,7 +30,7 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
-    await dispatch(event, bot);
+    await dispatchEvent(event, bot);
     // await bot.reply("thanks for the mention!", post);
   });
 
@@ -42,10 +42,7 @@ async function main() {
     console.log(`uri: ${post.uri}`);
     console.log(`text: ${post.text}`);
     post.mentions.forEach((mention) => {
-      console.log(`mention: ${mention.handle}`);
-    });
-    post.tags.forEach((tag) => {
-      console.log(`tag: ${tag.name}`);
+      console.log(`mention`, mention);
     });
 
     console.log('post =>', JSON.stringify(post, null, 2));
