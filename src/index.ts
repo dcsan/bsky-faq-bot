@@ -20,6 +20,7 @@ async function main() {
 
   const bot = new BskyBot({
     handle: handle,
+    replyToNonFollowers: true,
   });
 
   await bot.login(password);
