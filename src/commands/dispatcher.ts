@@ -5,36 +5,40 @@ import { FaqManager } from "../store/FaqManager";
 
 const clog = console
 
-async function dispatchEvent(event: any, bot: BskyBot | MockBot) {
+async function getReply(event: any, bot: BskyBot | MockBot): Promise<string | undefined> {
   const { post } = event;
   const text: string = post.text;
   // TODO word boundary
   const chunks = text.match(/(faq )(.*)$/i)
   if (!chunks) {
-    clog.warn('no regex match')
-    return
+    // TODO more cmds
+    clog.warn('no regex match for faq')
+    return undefined
   }
   clog.log('faq groups:', chunks)
 
+  let msg = ''
   if (chunks[1] === 'faq ') {
-    // match is 'faq<space>' for the command - TODO word boundaries
+    // match is 'faq<space><topic>' for the command - TODO word boundaries
     const topic = chunks[2]
     clog.log(`faq topic: [${topic}]`)
-    let msg = ''
     const faq = await FaqManager.findFaq(topic)
     if (!faq) {
       msg = `sorry no faq found for [${topic}]`
-      clog.warn('no answer for topic', topic)
+      clog.warn(msg)
+      await bot.reply(msg, post);
     } else {
       // format reply
       msg = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
       // TODO add link
       clog.log('faq reply:', msg)
-      await bot.reply(msg, post);
     }
   }
+
+  return msg
+
 }
 
 export {
-  dispatchEvent
+  getReply
 }

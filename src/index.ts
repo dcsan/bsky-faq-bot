@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
-import { dispatchEvent } from "./commands/dispatcher";
+import { getReply } from "./commands/dispatcher";
 
 dotenv.config();
 
@@ -30,14 +30,15 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
-    await dispatchEvent(event, bot);
-    // await bot.reply("thanks for the mention!", post);
+    const msg: string | undefined = await getReply(event, bot);
+    if (msg) {
+      await bot.reply(msg, post);
+    }
   });
 
   bot.setHandler(Events.REPLY, async (event) => {
     const { post } = event;
     await bot.like(post);
-
     console.log(`got reply from: [${post.author.handle}]`);
     console.log(`uri: ${post.uri}`);
     console.log(`text: ${post.text}`);
