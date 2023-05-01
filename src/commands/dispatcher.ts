@@ -29,6 +29,7 @@ async function dispatchEvent(event: any, bot: BskyBot | MockBot) {
       // format reply
       msg = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
       // TODO add link
+      clog.log('faq reply:', msg)
       await bot.reply(msg, post);
     }
   }
