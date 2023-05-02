@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { getReply } from "./commands/dispatcher";
+import { atToWeb } from "./utils/atHelpers";
 
 dotenv.config();
 
@@ -40,9 +41,9 @@ async function main() {
   bot.setHandler(Events.REPLY, async (event) => {
     const { post } = event;
     await bot.like(post);
-    console.log(`got reply from: [${post.author.handle}]`);
-    console.log(`uri: ${post.uri}`);
-    console.log(`text: ${post.text}`);
+    console.log(`\n--\ngot reply from: `, post.author.handle);
+    console.log(`uri: `, atToWeb(post.uri));
+    console.log(`text: `, post.text);
     post.mentions.forEach((mention) => {
       console.log(`mention`, mention);
     });
@@ -55,7 +56,7 @@ async function main() {
   bot.setHandler(Events.FOLLOW, async (event) => {
     const { user } = event;
     await bot.follow(user.did);
-    console.log(`\n new follow: ${user.handle}`);
+    console.log(`\n--\nnew follow: ${user.handle}`);
     console.log(` uri: https://staging.bsky.app/profile/${user.handle}`);
   });
 
