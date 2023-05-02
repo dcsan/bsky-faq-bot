@@ -61,7 +61,7 @@ class FaqManager {
    */
   formatFaqs(rows: any[]): Faq[] {
     let faqRows: Faq[] = []
-    rows.unshift() // remove header row
+    rows.shift() // remove header row
 
     // some fields have multiple values. easier to handle this way
     // note separator is a "/"

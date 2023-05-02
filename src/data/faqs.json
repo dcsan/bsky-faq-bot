@@ -32,5 +32,14 @@
     "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
     "https://atproto.com/docs",
     "docs"
+  ],
+  [
+    "1",
+    "What is a DID?",
+    "DID",
+    "did",
+    "DIDs are unique global identifiers which strongly identify repositories",
+    "https://atproto.com/docs",
+    "docs"
   ]
 ]
