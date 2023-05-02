@@ -1,7 +1,7 @@
 // call the right command based on first /arg
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { MockBot } from "../test/MockBot";
-import { FaqManager } from "../store/FaqManager";
+import { faqManager } from "../models/FaqManager";
 
 const clog = console
 
@@ -22,7 +22,7 @@ async function getReply(event: any, bot: BskyBot | MockBot): Promise<string | un
     // match is 'faq<space><topic>' for the command - TODO word boundaries
     const topic = chunks[2]
     clog.log(`faq topic: [${topic}]`)
-    const faq = await FaqManager.findFaq(topic)
+    const faq = await faqManager.findFaq(topic)
     if (!faq) {
       msg = `sorry no faq found for [${topic}]`
       clog.warn(msg)

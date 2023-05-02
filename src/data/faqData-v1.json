@@ -1,9 +1,4 @@
-// there can be a few ways to ask the question, hence the array
-// keywords are used first to quick match then the question for more fuzzy matches
-
-import { Faq } from './FaqManager'
-
-const faqData: Faq[] = [
+[
   {
     questions: [
       'What is AT Proto',
@@ -45,5 +40,3 @@ const faqData: Faq[] = [
   },
 
 ]
-
-export { faqData }

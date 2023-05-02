@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { getReply } from "./commands/dispatcher";
 import { atToWeb } from "./utils/atHelpers";
+import { readValues } from "./utils/sheets";
 
 dotenv.config();
 

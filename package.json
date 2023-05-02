@@ -11,11 +11,13 @@
   "author": "many",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.16.3",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "easy-bsky-bot-sdk": "file:../easy-bsky-bot-sdk"
+    "easy-bsky-bot-sdk": "file:../easy-bsky-bot-sdk",
+    "googleapis": "^118.0.0",
+    "ts-node": "^10.9.1"
   }
 }

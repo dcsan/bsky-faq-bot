@@ -1,0 +1,36 @@
+[
+  [
+    "approved",
+    "questions",
+    "topic",
+    "keywords",
+    "answer",
+    "linkUrl",
+    "linkText"
+  ],
+  [
+    "1",
+    "What's a skeet? / What's the word for Tweet?",
+    "skeet",
+    "skeet / post / tweet",
+    "adopted by bluesky users instead of Tweets or Posts"
+  ],
+  [
+    "1",
+    "What is AT Proto",
+    "ATProto",
+    "at proto / atproto / at-proto",
+    "AT Proto is a protocol to support decentralized social networking",
+    "https://atproto.com/docs",
+    "docs"
+  ],
+  [
+    "1",
+    "What is a PDS?",
+    "PDS",
+    "pds / personal data server",
+    "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
+    "https://atproto.com/docs",
+    "docs"
+  ]
+]

@@ -5,6 +5,10 @@ set dotenv-load
 default:
   @just --list
 
+# remove build artifacts
+clean:
+  rm -rf build/*
+
 cls:
   clear && printf '\e[3J'
 
@@ -14,7 +18,7 @@ show-invited:
 start: cls
   npm run start
 
-build: cls
+build: cls clean
   npm run build
 
 run: cls build
@@ -27,3 +31,12 @@ update-bot-module:
 
 test: cls
   ts-node src/test/dispatcher.test.ts
+
+test-sheet: cls build
+  ts-node src/utils/sheets.ts
+
+update-faqs: cls
+  ts-node src/cli.ts update-faqs
+
+show-faqs: cls
+  ts-node src/cli.ts show-faqs

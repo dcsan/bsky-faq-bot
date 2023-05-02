@@ -14,7 +14,7 @@ export const paginateAll = async <T extends { cursor?: string }>(
   const results: T[] = [];
   let cursor;
   do {
-    const res = await fn(cursor);
+    const res: any = await fn(cursor);
     results.push(res);
     cursor = res.cursor;
   } while (cursor && results.length < limit);
