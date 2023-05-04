@@ -6,7 +6,9 @@ This is a simple FAQ bot to reply to common questions.
 Just mention the bot with `faq <topic>`
 
 like this example:
-https://staging.bsky.app/profile/yafes.bsky.social/post/3juoniphefd2x
+- [web/staging](https://staging.bsky.app/profile/yafes.bsky.social/post/3juoniphefd2x)
+- [psky](https://psky.app/profile/yafes.bsky.social/post/3juoniphefd2x)
+- [bsky](https://bsky.app/profile/yafes.bsky.social/post/3juoniphefd2x)
 
 <img src='docs/did-example.png' width='400'>
 
