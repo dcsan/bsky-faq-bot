@@ -20,6 +20,7 @@
     "dotenv": "^16.0.3",
     "easy-bsky-bot-sdk": "github:dcsan/easy-bsky-bot-sdk",
     "googleapis": "^118.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "string-similarity-js": "^2.1.4"
   }
 }

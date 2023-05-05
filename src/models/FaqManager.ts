@@ -3,11 +3,16 @@ import path from 'path'
 import { Faq, FaqReply } from '../types'
 import { readValues } from '../utils/sheets'
 import _ from 'lodash'
+import { stringSimilarity } from "string-similarity-js";
 
 // flat array of faqs from sheets
 import faqsRaw from "../data/faqs.json"
 
 const clog = console
+
+const localConfig = {
+  simThreshold: 0.6 // matching of strings
+}
 
 class FaqManager {
 
@@ -24,13 +29,39 @@ class FaqManager {
     this.loadFaqs()
   }
 
+  async findFaqByQuestions(query: string): Promise<Faq | undefined> {
+    let matches = []
+    for (let faq of this.faqData) {
+      if (!faq.questions) continue
+
+      for (let exampleQuestion of faq.questions) {
+        if (!exampleQuestion) continue // empty "" items
+        // using a short substr length since we expect short questions
+        const score = stringSimilarity(query, exampleQuestion, 5)
+        if (score > localConfig.simThreshold) {
+          clog.log(`score ${score} input :[${query}] => question: `, exampleQuestion)
+          matches.push({ score, faq })
+        }
+      }
+    }
+
+    if (matches.length == 0) {
+      clog.warn(`no faq found for query:[${query}]`)
+      return
+    }
+
+    // sort by score and return only one item
+    // TODO if scores are close, return top 3 matches and disambig in the client
+    matches = matches.sort((a, b) => b.score - a.score)
+    clog.log('matches', matches)
+    return matches[0].faq
+
+  }
 
   async findFaqByKeywords(query: string): Promise<Faq | undefined> {
     for (let faq of this.faqData) {
-      if (!faq.keywords) {
-        clog.warn('no kw in faq:', faq)
-        continue // empty ones
-      }
+      if (!faq.keywords) continue // empty ones
+
       for (let keyword of faq.keywords) {
         if (!keyword) continue // empty "" items
         if (query.includes(keyword)) {
@@ -162,7 +193,10 @@ class FaqManager {
    */
   async getFormattedReplyOrDefault(input: string): Promise<string | undefined> {
     const cleaned: string = input.trim().toLowerCase();
-    const faq = await this.findFaqByKeywords(cleaned)
+    const faq =
+      await this.findFaqByQuestions(cleaned) ||
+      await this.findFaqByKeywords(cleaned)
+
     if (faq) {
       return this.formatFaqReply(faq)
     }
