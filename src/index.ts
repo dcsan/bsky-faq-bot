@@ -1,8 +1,8 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
-import { getReply } from "./commands/dispatcher";
+import { checkFaq } from "./commands/dispatcher";
 import { atToWeb } from "./utils/atHelpers";
-import { readValues } from "./utils/sheets";
+
 import { AppConfig } from "./utils/AppConfig";
 
 dotenv.config();
@@ -32,9 +32,11 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
-    const faqReply = await getReply(event, bot);
-    if (faqReply?.reply) {
-      await bot.reply(faqReply.reply!, post);
+    const replied = await checkFaq(event, bot) || false
+
+    // TODO chatGPT etc
+    if (!replied) {
+      console.warn('no reply for input:', post.text)
     }
   });
 

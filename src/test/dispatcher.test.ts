@@ -2,7 +2,7 @@
 // import assert from "assert";
 
 import { MockBot, MockEvent } from "./MockBot";
-import { getReply } from "../commands/dispatcher";
+import { checkFaq } from "../commands/dispatcher";
 
 const clog = console
 const testBot = new MockBot();
@@ -26,7 +26,7 @@ async function checkOne(
   const event = new MockEvent({
     text: input
   })
-  await getReply(event, testBot) // reply is stashed in mockbot
+  await checkFaq(event, testBot) // reply is stashed in mockbot
 
   if (!checkReply(expected, msg)) {
     throw new Error('testDispatcher failed')

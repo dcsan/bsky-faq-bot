@@ -19,5 +19,5 @@ async function checkFaq(event: any, bot: BskyBot | MockBot): Promise<FaqReply | 
 }
 
 export {
-  checkFaq as getReply
+  checkFaq
 }
