@@ -3,21 +3,23 @@ bluesky faq bot
 
 This is a simple FAQ bot to reply to common questions.
 
+Visit me at @faqbot.bsky.social or by permanent DID address here
+https://staging.bsky.app/profile/did:plc:dy5c7snfz6vgniijd73a6d7z
 
 ## try it out
-Currently the bot just runs on my personal account until I can get another invite code to run it with. Use the 'faq' term in a skeet like this:
 
-`@dcsan.xyz faq <topic>`
+`@faqbot.bsky.social <question>`
 
-like this example:
-- [psky link using DID](https://psky.app/profile/did:plc:h6gqfdny4khtwswuimwob75v/post/3juoniphefd2x)
-- [web/staging](https://staging.bsky.app/profile/did:plc:h6gqfdny4khtwswuimwob75v/post/3juoniphefd2x)
+We use some keyword terms and also fuzzy matching to find the best answer.
 
-<img src='docs/did-example.png' width='400'>
+## Data
+The content for the FAQs is currently stored in this google sheet.
 
-Currently we just search for the keyword matches in [src/store/faqData.ts](./src/store/faqData.ts)
+[FAQ Database sheet](https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q/edit#gid=0)
 
-In future we can add more fuzzy matching and NLP classifiers, as well as adding new topics by users.
+You can edit the data here. There's also a command to fetch the latest from here.
+
+`ts-node src/cli.ts faqs-fetch`
 
 
 ## Setup
@@ -31,14 +33,6 @@ BOT_HANDLE=example.bot.handle.com
 BOT_PASSWORD=12345
 ```
 
-## Data
-The content for the FAQs is currently stored in this google sheet.
-
-[FAQ Database sheet](https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q/edit#gid=0)
-
-You can edit the data here. There's also a command to fetch the latest from here.
-
-`ts-node src/cli.ts faqs-fetch`
 
 
 ## install

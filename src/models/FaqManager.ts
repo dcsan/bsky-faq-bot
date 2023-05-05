@@ -82,7 +82,7 @@ class FaqManager {
   async fetchFaqs() {
     const data = await readValues('faqData') as any[]
     fs.writeFileSync(this.faqPath, JSON.stringify(data, null, 2))
-    const faqs = this.formatFaqs(data)
+    const faqs = this.formatRawFaqs(data)
     clog.log('wrote faqs to', this.faqPath)
   }
 
@@ -101,7 +101,7 @@ class FaqManager {
     TODO - more flexible / dynamic format for data?
     or at least check the header row matches our assumption
    */
-  formatFaqs(rows: string[][]): Faq[] {
+  formatRawFaqs(rows: string[][]): Faq[] {
     let faqRows: Faq[] = []
     rows.shift() // remove header row
 
@@ -160,7 +160,7 @@ class FaqManager {
   loadFaqs() {
     clog.log('loading faqs from', this.faqPath)
     const data = faqsRaw as string[][]
-    this.faqData = this.formatFaqs(data)
+    this.faqData = this.formatRawFaqs(data)
     clog.log('loaded faqs', this.faqData?.length)
     return data
   }
@@ -170,7 +170,8 @@ class FaqManager {
   }
 
   formatFaqReply(faq: Faq): string {
-    const reply = `ℹ️ [${faq.topic}]\n🤖 ${faq.answer}`
+    const url = faq.linkUrl ? `\n🌐⇢ ${faq.linkUrl}` : ''
+    const reply = `👀❓ [${faq.topic}]\n🤖💬 ${faq.answer} ${url}`
     return reply
   }
 
