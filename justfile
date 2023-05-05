@@ -1,3 +1,5 @@
+#
+
 set export
 set dotenv-load
 
@@ -19,7 +21,7 @@ start: cls
   npm run start
 
 build: cls clean
-  npm run build
+  time npm run build
 
 run: cls build
   npm run start
