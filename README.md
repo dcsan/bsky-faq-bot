@@ -56,6 +56,26 @@ npm install --save easy-bsky-bot-sdk
 ## just file
 There's a justfile with some other useful commands. Install [just](https://github.com/casey/just) to use these.
 
+```
+$ just
+Available recipes:
+    build
+    clean        # remove build artifacts
+    cls
+    default      # list all recipes
+    dev-prepare  # update bot module assuming path is ../easy-bsky-bot-sdk
+    docker-build
+    faqs-fetch   # fetch from google sheet
+    faqs-show    # show for previewing
+    prod-prepare # remove local bot module
+    run
+    show-invited
+    start
+    test
+    test-sheet
+```
+
+
 ## TODO
 - [ ] custom openAI finetune
 - [ ] pipeline from openAI/GPT responses to local FAQ to enable images and other custom metadata
@@ -63,4 +83,6 @@ There's a justfile with some other useful commands. Install [just](https://githu
 - [ ] search for best keyword hits in a question
 - [ ] NLP classifier matching
 - [ ] /teach command to add new questions and answers
+
+
 

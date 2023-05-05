@@ -5,15 +5,16 @@
     "topic",
     "keywords",
     "answer",
-    "linkUrl",
-    "linkText"
+    "characters",
+    "linkUrl"
   ],
   [
     "1",
     "What's a skeet? / What's the word for Tweet?",
     "skeet",
     "skeet / post / tweet",
-    "adopted by bluesky users instead of Tweets or Posts"
+    "adopted by bluesky users instead of Tweets or Posts",
+    "51"
   ],
   [
     "1",
@@ -21,8 +22,8 @@
     "ATProto",
     "at proto / atproto / at-proto",
     "AT Proto is a protocol to support decentralized social networking",
-    "https://atproto.com/docs",
-    "docs"
+    "65",
+    "https://atproto.com/docs"
   ],
   [
     "1",
@@ -30,8 +31,8 @@
     "PDS",
     "pds / personal data server",
     "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
-    "https://atproto.com/docs",
-    "docs"
+    "104",
+    "https://atproto.com/docs"
   ],
   [
     "1",
@@ -39,7 +40,39 @@
     "DID",
     "did",
     "DIDs are unique global identifiers which strongly identify repositories",
-    "https://atproto.com/docs",
-    "docs"
+    "71",
+    "https://atproto.com/docs"
+  ],
+  [
+    "",
+    "looking into it",
+    "",
+    "looking into it",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "skeetstudio",
+    "skeetstudio",
+    "skeetstudio",
+    "overloading skeet facets",
+    "24"
+  ],
+  [
+    "",
+    "what's a facet?",
+    "facets",
+    "",
+    "URLs and mentions detected in posts. Limit 100kb",
+    "48"
+  ],
+  [
+    "",
+    "how to lookup a DID?",
+    "did lookup",
+    "",
+    "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
+    "202"
   ]
 ]

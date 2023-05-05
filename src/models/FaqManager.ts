@@ -3,6 +3,9 @@ import path from 'path'
 import { Faq } from '../types'
 import { readValues } from '../utils/sheets'
 
+// flat array of faqs from sheets
+import faqsRaw from "../data/faqs.json"
+
 const clog = console
 
 class FaqManager {
@@ -11,6 +14,7 @@ class FaqManager {
   faqPath: string
 
   constructor() {
+    // for writing
     this.faqPath = path.join(__dirname, '../data/faqs.json')
     this.loadFaqs()
   }
@@ -37,7 +41,7 @@ class FaqManager {
   /**
    * @description pull faqs from google sheets
    */
-  async updateFaqs() {
+  async fetchFaqs() {
     const data = await readValues('faqData') as any[]
     fs.writeFileSync(this.faqPath, JSON.stringify(data, null, 2))
     const faqs = this.formatFaqs(data)
@@ -59,7 +63,7 @@ class FaqManager {
     TODO - more flexible / dynamic format for data?
     or at least check the header row matches our assumption
    */
-  formatFaqs(rows: any[]): Faq[] {
+  formatFaqs(rows: string[][]): Faq[] {
     let faqRows: Faq[] = []
     rows.shift() // remove header row
 
@@ -95,7 +99,7 @@ class FaqManager {
    */
   loadFaqs() {
     clog.log('loading faqs from', this.faqPath)
-    const data = JSON.parse(fs.readFileSync(this.faqPath, 'utf8'))
+    const data = faqsRaw as string[][]
     this.faqData = this.formatFaqs(data)
     clog.log('formatted faqData', this.faqData)
     return data

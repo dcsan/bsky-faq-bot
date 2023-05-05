@@ -4,12 +4,13 @@ const clog = console
 async function main() {
   const cmd = process.argv[2]
   clog.log('cmd:', cmd)
+
   switch (cmd) {
-    case 'update-faqs':
-      await faqManager.updateFaqs()
+    case 'faqs-fetch':
+      await faqManager.fetchFaqs()
       break;
 
-    case 'show-faqs':
+    case 'faqs-show':
       await faqManager.showFaqs()
       break;
 

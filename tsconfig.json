@@ -6,6 +6,7 @@
   "compilerOptions": {
     "target": "es2016",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./build",
     "skipLibCheck": true,

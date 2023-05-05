@@ -1,7 +1,10 @@
-#
+# useful tools and commands
+# install from https://github.com/casey/just
+# use `just` command on its own to see a summary
+
 
 set export
-set dotenv-load
+set dotenv-load # load .env values to use in here
 
 # list all recipes
 default:
@@ -27,9 +30,17 @@ run: cls build
   npm run start
 
 # update bot module assuming path is ../easy-bsky-bot-sdk
-update-bot-module:
+dev-prepare:
+  npm uninstall easy-bsky-bot-sdk
   cd ../easy-bsky-bot-sdk && npm run build
   npm i ../easy-bsky-bot-sdk
+
+# remove local bot module
+prod-prepare:
+  npm uninstall easy-bsky-bot-sdk
+  npm i easy-bsky-bot-sdk
+
+
 
 test: cls
   ts-node src/test/dispatcher.test.ts
@@ -37,8 +48,17 @@ test: cls
 test-sheet: cls build
   ts-node src/utils/sheets.ts
 
-update-faqs: cls
-  ts-node src/cli.ts update-faqs
+#--- working with FAQ data ----
 
-show-faqs: cls
-  ts-node src/cli.ts show-faqs
+# fetch from google sheet
+faqs-fetch: cls
+  ts-node src/cli.ts faqs-fetch
+
+# show for previewing
+faqs-show: cls
+  ts-node src/cli.ts faqs-show
+
+docker-build:
+  docker build . -t bsfaqbot
+  docker run -dp 8080:8080 bsfaqbot
+
