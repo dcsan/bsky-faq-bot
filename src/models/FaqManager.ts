@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { Faq, FaqReply } from '../types'
 import { readValues } from '../utils/sheets'
+import _ from 'lodash'
 
 // flat array of faqs from sheets
 import faqsRaw from "../data/faqs.json"
@@ -23,13 +24,17 @@ class FaqManager {
     this.loadFaqs()
   }
 
-  async findFaq(query: string): Promise<Faq | undefined> {
+
+  async findFaqByKeywords(query: string): Promise<Faq | undefined> {
     for (let faq of this.faqData) {
-      if (!faq.keywords) continue // empty ones
+      if (!faq.keywords) {
+        clog.warn('no kw in faq:', faq)
+        continue // empty ones
+      }
       for (let keyword of faq.keywords) {
         if (!keyword) continue // empty "" items
         if (query.includes(keyword)) {
-          clog.log(`faq found for kw:[${keyword}] =>`, faq)
+          clog.log(`faq found for query:[${query}] => topic: `, faq.topic)
           return faq
         }
       }
@@ -133,47 +138,82 @@ class FaqManager {
     clog.log('faqData', this.faqData)
   }
 
+  formatFaqReply(faq: Faq): string {
+    const reply = `ℹ️ [${faq.topic}]\n🤖 ${faq.answer}`
+    return reply
+  }
+
+  notFoundReply(input: string): string {
+    const options = [
+      "Sorry IDK  🤖🤷",
+      "I don't know maybe someone else can answer?",
+      "no idea!",
+      "I'm still a baby bot 🤖",
+      "Let me know if you find out!",
+      `hmmm, ${input} I'm not sure, sorry!`,
+    ]
+    const reply = _.sample(options) as string
+    // const reply = `no faq found for [${input}]`
+    return reply
+  }
+
+  /**
+   * @description find a faq by keyword or the 'sorry no reply' message
+   */
+  async getFormattedReplyOrDefault(input: string): Promise<string | undefined> {
+    const cleaned: string = input.trim().toLowerCase();
+    const faq = await this.findFaqByKeywords(cleaned)
+    if (faq) {
+      return this.formatFaqReply(faq)
+    }
+    return undefined
+    // if (!faq) return this.notFoundReply(input)
+  }
+
+
+  // async searchFaqs(input: string): Promise<Faq | undefined> {
+  //   const faq = await this.findFaq(input)
+  //   if (faq) return faq
+  // }
+
   /**
    * if user says "faq <topic>" and we cannot find a faq we still reply wtih a 'not found'
    * @param text
    * @returns reply and faq if found
    */
-  async getReply(text: string): Promise<FaqReply | undefined> {
-    // TODO word boundary
-    const chunks = text.match(/(faq )(.*)$/i)
-    if (!chunks) {
-      // TODO more cmds
-      clog.warn('no regex match for faq')
-      return undefined
-    }
-    clog.log('faq groups:', chunks)
+  // async checkFaqCommand(text: string): Promise<FaqReply | undefined> {
+  //   // TODO word boundary
+  //   const chunks = text.match(/(faq )(.*)$/i)
+  //   if (!chunks) {
+  //     // TODO more cmds
+  //     clog.warn('no regex match for faq')
+  //     return undefined
+  //   }
+  //   clog.log('faq groups:', chunks)
 
-    let reply: string | undefined = undefined
-    let faq: Faq | undefined = undefined
-    if (chunks[1] === 'faq ') {
-      // match is 'faq<space><topic>' for the command - TODO word boundaries
-      const topic = chunks[2]
-      clog.log(`faq topic: [${topic}]`)
-      faq = await faqManager.findFaq(topic)
-      if (!faq) {
-        reply = `sorry no faq found for [${topic}]`
-        clog.warn(reply)
-      } else {
-        // format reply
-        reply = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
-        // TODO add links and find facets
-        clog.log('faq reply:', reply)
-      }
-    }
-
-    const result = {
-      reply,
-      faq
-    }
-
-    return result
-
-  }
+  //   let reply: string | undefined = undefined
+  //   let faq: Faq | undefined = undefined
+  //   if (chunks[1] === 'faq ') {
+  //     // match is 'faq<space><topic>' for the command - TODO word boundaries
+  //     const topic = chunks[2]
+  //     clog.log(`faq topic: [${topic}]`)
+  //     faq = await faqManager.findFaq(topic)
+  //     if (!faq) {
+  //       reply = `sorry no faq found for [${topic}]`
+  //       clog.warn(reply)
+  //     } else {
+  //       // format reply
+  //       reply = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
+  //       // TODO add links and find facets
+  //       clog.log('faq reply:', reply)
+  //     }
+  //   }
+  // const result = {
+  //   reply,
+  //   faq
+  // }
+  //   return result
+  // }
 
 }
 
@@ -181,3 +221,4 @@ class FaqManager {
 const faqManager = new FaqManager()
 
 export { faqManager }
+

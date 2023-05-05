@@ -4,6 +4,7 @@ import { checkFaq } from "./commands/dispatcher";
 import { atToWeb } from "./utils/atHelpers";
 
 import { AppConfig } from "./utils/AppConfig";
+import { faqManager } from "./models/FaqManager";
 
 dotenv.config();
 
@@ -32,12 +33,16 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
-    const replied = await checkFaq(event, bot) || false
+    const reply: string | undefined = await checkFaq(event, bot)
 
-    // TODO chatGPT etc
-    if (!replied) {
+    if (reply && typeof reply === 'string') {
+      await bot.reply(reply, post);
+    } else {
+      const defaultReply = faqManager.notFoundReply(post.text)
+      await bot.reply(defaultReply, post);
       console.warn('no reply for input:', post.text)
     }
+    // TODO chatGPT etc
   });
 
   bot.setHandler(Events.REPLY, async (event) => {

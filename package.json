@@ -11,12 +11,15 @@
   "author": "many",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@types/node": "^18.16.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "googleapis": "^118.0.0"
+    "easy-bsky-bot-sdk": "github:dcsan/easy-bsky-bot-sdk",
+    "googleapis": "^118.0.0",
+    "lodash": "^4.17.21"
   }
 }

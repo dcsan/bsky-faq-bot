@@ -6,16 +6,20 @@ import { Faq, FaqReply } from "src/types";
 
 const clog = console
 
-
-async function checkFaq(event: any, bot: BskyBot | MockBot): Promise<FaqReply | undefined> {
+/**
+ * this will also reply to the post
+ * @param event
+ * @param bot
+ * @returns
+ */
+async function checkFaq(event: any, bot: BskyBot | MockBot): Promise<string | undefined> {
   const { post } = event;
-  const text: string = post.text;
-  const faqReply = await faqManager.getReply(text)
-  if (faqReply && faqReply?.reply) {
-    await bot.reply(faqReply.reply, post);
-    return faqReply
+  const reply: string | undefined = await faqManager.getFormattedReplyOrDefault(post.text)
+  if (reply) {
+    await bot.reply(reply, post);
+    return reply // for testing
   }
-  return undefined   // if no message in the reply
+  return
 }
 
 export {

@@ -1,5 +1,9 @@
 export class MockBot {
   lastReply: string = ''
+
+  reset() {
+    this.lastReply = ''
+  }
   // constructor() {
   //   this.reply = this.reply.bind(this);
   // }
