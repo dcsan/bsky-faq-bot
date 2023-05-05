@@ -4,7 +4,7 @@ bluesky faq bot
 This is a simple FAQ bot to reply to common questions.
 
 
-## account
+## try it out
 Currently the bot just runs on my personal account until I can get another invite code to run it with. Use the 'faq' term in a skeet like this:
 
 `@dcsan.xyz faq <topic>`
@@ -19,11 +19,6 @@ Currently we just search for the keyword matches in [src/store/faqData.ts](./src
 
 In future we can add more fuzzy matching and NLP classifiers, as well as adding new topics by users.
 
-## Data
-The content for the FAQs is currently stored in this google sheet.
-
-[FAQ Database sheet](https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q/edit#gid=0)
-
 
 ## Setup
 
@@ -35,6 +30,16 @@ You can get an app password from inside the bluesky app to not expose your main 
 BOT_HANDLE=example.bot.handle.com
 BOT_PASSWORD=12345
 ```
+
+## Data
+The content for the FAQs is currently stored in this google sheet.
+
+[FAQ Database sheet](https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q/edit#gid=0)
+
+You can edit the data here. There's also a command to fetch the latest from here.
+
+`ts-node src/cli.ts faqs-fetch`
+
 
 ## install
 
@@ -76,12 +81,15 @@ Available recipes:
 ```
 
 ## deployment
-Trying out
+Trying out fly.io
 
-```
-fly launch
-fly deploy
-```
+you might have to edit the fly.toml file to change the app for your own account
+
+`fly launch # first time`
+
+then `fly deploy`
+
+to update.
 
 
 ## TODO

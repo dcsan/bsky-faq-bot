@@ -44,7 +44,7 @@
     "https://atproto.com/docs"
   ],
   [
-    "",
+    "1",
     "looking into it",
     "",
     "looking into it",
@@ -52,7 +52,7 @@
     "0"
   ],
   [
-    "",
+    "1",
     "skeetstudio",
     "skeetstudio",
     "skeetstudio",
@@ -60,19 +60,27 @@
     "24"
   ],
   [
-    "",
+    "1",
     "what's a facet?",
     "facets",
-    "",
+    "facet",
     "URLs and mentions detected in posts. Limit 100kb",
     "48"
   ],
   [
-    "",
+    "1",
     "how to lookup a DID?",
     "did lookup",
-    "",
+    "did lookup",
     "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
     "202"
+  ],
+  [
+    "1",
+    "What's psky",
+    "psky",
+    "psky",
+    "a service to show previews of blueksy skeets. also handles redirect to staging (while needed)",
+    "93"
   ]
 ]

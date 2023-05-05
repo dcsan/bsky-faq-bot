@@ -25,7 +25,8 @@ class FaqManager {
 
   async findFaq(query: string): Promise<Faq | undefined> {
     for (let faq of this.faqData) {
-      for (let keyword of faq.keywords) {
+      for (let keyword of faq.keywords!) {
+        if (!keyword) continue // empty ones
         if (query.includes(keyword)) {
           clog.log(`faq found for kw:[${keyword}] =>`, faq)
           return faq
@@ -69,27 +70,45 @@ class FaqManager {
 
     // some fields have multiple values. easier to handle this way
     // note separator is a "/"
-    const splitItems = (row: string, separator = "/") => {
-      let items = row.split(separator)
+    const splitItems = (line: string, separator = "/") => {
+      if (!line) return
+      let items = line.split(separator)
       items = items.map((item: string) => item.trim())
       return items
     }
 
     for (let row of rows) {
-      const faq: Faq = {
+      let faq: Faq = {
         approved: parseInt(row[0]), // could be a boolean?
         questions: splitItems(row[1]),
         topic: row[2],
         keywords: splitItems(row[3]),
         answer: row[4],
-        linkUrl: row[5],
-        linkText: row[6],
+        characters: parseInt(row[5]),
+        linkUrl: row[6],
+        linkText: row[7],
+        imageUrl: row[8],
+        imageAlt: row[9],
+        author: row[10],
+        seeAlso: splitItems(row[11]),
       }
+      faq = this.fillDefaults(faq)
       faqRows.push(faq)
     }
     clog.info('formatted faqs', faqRows)
     this.faqData = faqRows
     return faqRows
+  }
+
+  // add defaults or fill in missing values
+  fillDefaults(faq: Faq): Faq {
+    if (!faq.approved) { faq.approved = 1 }
+    if (!faq.questions || faq.questions.length === 0) {
+      if (faq.keywords) {
+        faq.questions = faq.keywords.map((keyword: string) => `What is a ${keyword}`)
+      }
+    }
+    return faq
   }
 
   /**
