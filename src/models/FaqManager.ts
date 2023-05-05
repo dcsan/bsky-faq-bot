@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { Faq } from '../types'
+import { Faq, FaqReply } from '../types'
 import { readValues } from '../utils/sheets'
 
 // flat array of faqs from sheets
@@ -25,8 +25,9 @@ class FaqManager {
 
   async findFaq(query: string): Promise<Faq | undefined> {
     for (let faq of this.faqData) {
-      for (let keyword of faq.keywords!) {
-        if (!keyword) continue // empty ones
+      if (!faq.keywords) continue // empty ones
+      for (let keyword of faq.keywords) {
+        if (!keyword) continue // empty "" items
         if (query.includes(keyword)) {
           clog.log(`faq found for kw:[${keyword}] =>`, faq)
           return faq
@@ -95,7 +96,11 @@ class FaqManager {
       faq = this.fillDefaults(faq)
       faqRows.push(faq)
     }
-    clog.info('formatted faqs', faqRows)
+    if (faqRows.length === 0) {
+      throw new Error('no faqs found')
+    }
+
+    clog.info('formatted faqs', faqRows?.length)
     this.faqData = faqRows
     return faqRows
   }
@@ -120,12 +125,54 @@ class FaqManager {
     clog.log('loading faqs from', this.faqPath)
     const data = faqsRaw as string[][]
     this.faqData = this.formatFaqs(data)
-    clog.log('formatted faqData', this.faqData)
+    clog.log('loaded faqs', this.faqData?.length)
     return data
   }
 
   showFaqs() {
     clog.log('faqData', this.faqData)
+  }
+
+  /**
+   * if user says "faq <topic>" and we cannot find a faq we still reply wtih a 'not found'
+   * @param text
+   * @returns reply and faq if found
+   */
+  async getReply(text: string): Promise<FaqReply | undefined> {
+    // TODO word boundary
+    const chunks = text.match(/(faq )(.*)$/i)
+    if (!chunks) {
+      // TODO more cmds
+      clog.warn('no regex match for faq')
+      return undefined
+    }
+    clog.log('faq groups:', chunks)
+
+    let reply: string | undefined = undefined
+    let faq: Faq | undefined = undefined
+    if (chunks[1] === 'faq ') {
+      // match is 'faq<space><topic>' for the command - TODO word boundaries
+      const topic = chunks[2]
+      clog.log(`faq topic: [${topic}]`)
+      faq = await faqManager.findFaq(topic)
+      if (!faq) {
+        reply = `sorry no faq found for [${topic}]`
+        clog.warn(reply)
+      } else {
+        // format reply
+        reply = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
+        // TODO add links and find facets
+        clog.log('faq reply:', reply)
+      }
+    }
+
+    const result = {
+      reply,
+      faq
+    }
+
+    return result
+
   }
 
 }

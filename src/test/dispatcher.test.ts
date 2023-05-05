@@ -1,28 +1,41 @@
 // test for dispatcher with mock bot
-import assert from "assert";
+// import assert from "assert";
 
 import { MockBot, MockEvent } from "./MockBot";
 import { getReply } from "../commands/dispatcher";
 
 const clog = console
+const testBot = new MockBot();
 
-async function testDispatcher() {
-  const bot = new MockBot();
-  const event = new MockEvent({
-    text: 'hey bot /faq did'
-  })
-  const reply = await getReply(event, bot);
-  assert(reply, 'reply is undefined')
-
-  await bot.reply(reply!) // stash in bot.lastReply
-  // TODO export assert
-  const expected = 'faq topic: [DID]'
-  if (!bot.lastReply.startsWith(expected)) {
+function checkReply(expected: string, msg: string): boolean {
+  const lastReply = testBot.lastReply
+  if (!lastReply || !lastReply.startsWith(expected)) {
+    clog.warn('error:', msg)
     clog.warn('expected:', expected)
-    clog.warn('=>actual:', bot.lastReply)
+    clog.warn('=>actual:', lastReply || '## NONE ##')
+    return false
+    // throw new Error('testDispatcher failed')
+  }
+  return true
+}
+
+async function checkOne(
+  input: string,
+  expected: string,
+  msg: string) {
+  const event = new MockEvent({
+    text: input
+  })
+  await getReply(event, testBot) // reply is stashed in mockbot
+
+  if (!checkReply(expected, msg)) {
     throw new Error('testDispatcher failed')
   }
-  clog.log('testDispatcher passed')
+}
+
+async function testDispatcher() {
+  const check1 = checkOne('faq did', 'faq topic: [DID]', '[DID] faq failed')
+  // clog.log('testDispatcher passed')
 }
 
 async function main() {

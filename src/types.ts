@@ -12,3 +12,9 @@ export type Faq = {
   author?: string
   seeAlso?: string[]
 }
+
+// faq with a formatted reply
+export type FaqReply = {
+  reply?: string
+  faq?: Faq
+}

@@ -8,7 +8,7 @@ COPY .env ./
 COPY ./src ./src
 
 RUN npm ci
-RUN npx tsc
+RUN npm run build
 EXPOSE 8080
 CMD [ "node", "./build/index.js" ]
 

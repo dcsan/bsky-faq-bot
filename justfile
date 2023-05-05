@@ -31,20 +31,23 @@ run: cls build
 
 # --- deployment ----
 
+deploy: deploy-prepare build
+  fly deploy
+
+# remove local bot module
+# npm i easy-bsky-bot-sdk
+# use botsdk from DCs build at github.com:dcsan/easy-bsky-bot-sdk.git
+deploy-prepare:
+  npm uninstall easy-bsky-bot-sdk
+  npm i https://github.com/dcsan/easy-bsky-bot-sdk
+
 # update bot module assuming path is ../easy-bsky-bot-sdk
 dev-prepare:
   npm uninstall easy-bsky-bot-sdk
   cd ../easy-bsky-bot-sdk && npm run build
   npm i ../easy-bsky-bot-sdk
 
-# remove local bot module
-# npm i easy-bsky-bot-sdk
-# use botsdk from DCs build at github.com:dcsan/easy-bsky-bot-sdk.git
-prod-prepare:
-  npm uninstall easy-bsky-bot-sdk
-  npm i https://github.com/dcsan/easy-bsky-bot-sdk
-
-test: cls
+test-faq-replies: cls
   ts-node src/test/dispatcher.test.ts
 
 test-sheet: cls build

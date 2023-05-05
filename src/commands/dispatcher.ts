@@ -2,43 +2,22 @@
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { MockBot } from "../test/MockBot";
 import { faqManager } from "../models/FaqManager";
+import { Faq, FaqReply } from "src/types";
 
 const clog = console
 
-async function getReply(event: any, bot: BskyBot | MockBot): Promise<string | undefined> {
+
+async function checkFaq(event: any, bot: BskyBot | MockBot): Promise<FaqReply | undefined> {
   const { post } = event;
   const text: string = post.text;
-  // TODO word boundary
-  const chunks = text.match(/(faq )(.*)$/i)
-  if (!chunks) {
-    // TODO more cmds
-    clog.warn('no regex match for faq')
-    return undefined
+  const faqReply = await faqManager.getReply(text)
+  if (faqReply && faqReply?.reply) {
+    await bot.reply(faqReply.reply, post);
+    return faqReply
   }
-  clog.log('faq groups:', chunks)
-
-  let msg = ''
-  if (chunks[1] === 'faq ') {
-    // match is 'faq<space><topic>' for the command - TODO word boundaries
-    const topic = chunks[2]
-    clog.log(`faq topic: [${topic}]`)
-    const faq = await faqManager.findFaq(topic)
-    if (!faq) {
-      msg = `sorry no faq found for [${topic}]`
-      clog.warn(msg)
-      await bot.reply(msg, post);
-    } else {
-      // format reply
-      msg = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
-      // TODO add link
-      clog.log('faq reply:', msg)
-    }
-  }
-
-  return msg
-
+  return undefined   // if no message in the reply
 }
 
 export {
-  getReply
+  checkFaq as getReply
 }

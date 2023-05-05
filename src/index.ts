@@ -3,14 +3,13 @@ import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { getReply } from "./commands/dispatcher";
 import { atToWeb } from "./utils/atHelpers";
 import { readValues } from "./utils/sheets";
+import { AppConfig } from "./utils/AppConfig";
 
 dotenv.config();
 
 async function main() {
-  const handle = process.env.BOT_HANDLE;
-  if (!handle) throw new Error("BOT_HANDLE not set in .env");
-  const password = process.env.BOT_PASSWORD;
-  if (!password) throw new Error("BOT_PASSWORD not set in .env");
+  const handle = AppConfig.BOT_HANDLE;
+  const password = AppConfig.BOT_PASSWORD;
 
   const botOwner = await {
     handle,
@@ -33,9 +32,9 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
-    const msg: string | undefined = await getReply(event, bot);
-    if (msg) {
-      await bot.reply(msg, post);
+    const faqReply = await getReply(event, bot);
+    if (faqReply?.reply) {
+      await bot.reply(faqReply.reply!, post);
     }
   });
 
