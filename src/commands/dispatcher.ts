@@ -16,7 +16,6 @@ async function checkFaq(event: any, bot: BskyBot | MockBot): Promise<string | un
   const { post } = event;
   const reply: string | undefined = await faqManager.getFormattedReplyOrDefault(post.text)
   if (reply) {
-    await bot.reply(reply, post);
     return reply // for testing
   }
   return
