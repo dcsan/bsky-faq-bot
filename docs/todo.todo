@@ -11,6 +11,7 @@ Infra:
   ☐ static page answers
   ☐ catch errors and log
   ☐ check esp for over long tweets
+  ☐ split longer FAQs into multiple skeets
 
   ☐ database connect
 

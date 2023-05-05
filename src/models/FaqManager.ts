@@ -46,7 +46,7 @@ class FaqManager {
     }
 
     if (matches.length == 0) {
-      clog.warn(`no faq found for query:[${query}]`)
+      clog.warn(`no faq by question for:[${query}]`)
       return
     }
 
@@ -73,7 +73,7 @@ class FaqManager {
     // TODO fuzzy match / levenshtein distance
     // TODO NLP search
     // TODO return top 3 matches
-    clog.warn(`no faq found for query:[${query}]`)
+    clog.warn(`no faq found by keyword for:[${query}]`)
   }
 
   /**
