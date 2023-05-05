@@ -1,5 +1,7 @@
 # bsky-faq-bot
-bluesky faq bot
+The bluesky faq bot
+
+From TPOT to Skeet, you can ask the bot about bluesky crazy lore, acronymys, happenings, tools, tech stuff and more.
 
 ## How to use
 
