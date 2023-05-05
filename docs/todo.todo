@@ -1,11 +1,13 @@
 Infra:
   ✔ deploy / nginx etc. @done(23-05-05 18:51)
-  ☐ fuzzy matching for search based on questions with threshold
-  ☐ longer terms first
-  ☐ openAI finetune and search
+  ✔ fuzzy matching for search based on questions with threshold @done(23-05-05 19:40)
+  ✔ longer terms first @done(23-05-05 19:40)
+  ☐ openAI simple search
+  ☐ finetune custom GPT model
   ☐ images
   ☐ links/facets support
   ☐ publicize a bit
+  ☐ static page answers
 
   ☐ database connect
 
