@@ -22,7 +22,7 @@ const testBot = new MockBot();
 async function checkOne(
   input: string,
   expected: string | undefined,
-  msg: string): Promise<string | undefined> {
+  msg?: string): Promise<string | undefined> {
 
   clog.log('\n----')
 
@@ -54,28 +54,30 @@ async function testDispatcher() {
     // input, expect, msg
 
     // based on full question matches / string sim
-    await checkOne("what's a did", 'ℹ️ [DID]', '[DID] faq failed'),
-    await checkOne("what is a did", 'ℹ️ [DID]', '[DID] faq failed'),
-    await checkOne("What is a PDS", 'ℹ️ [PDS]', '[PDS] faq failed'),
-    await checkOne("What's psky", 'ℹ️ [psky]', '[psky] faq failed'),
+    await checkOne("what's a did", '👀❓ [DID]', '[DID] faq failed'),
+    await checkOne("what is a did", '👀❓ [DID]', '[DID] faq failed'),
+    await checkOne("What is a PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+    await checkOne("What's psky", '👀❓ [psky]', '[psky] faq failed'),
 
-    await checkOne("what in the world is a DID I wonder", 'ℹ️ [DID]', '[DID] long '),
+    await checkOne("what in the world is a DID I wonder", '👀❓ [DID]', '[DID] long '),
+    await checkOne("onboarding guide", '👀❓ [getting started]'),
+    await checkOne("newbie", '👀❓ [getting started]'),
 
 
     // single word keyword items
-    await checkOne("DID", 'ℹ️ [DID]', '[DID] faq failed'),
-    await checkOne("PDS", 'ℹ️ [PDS]', '[PDS] faq failed'),
-    await checkOne("skeet", 'ℹ️ [skeet]', 'Skeet faq failed'),
-    await checkOne("why honk?", 'ℹ️ [honk]', 'HONK faq failed'),
-    await checkOne("honk", 'ℹ️ [honk]', 'HONK faq failed'),
-    await checkOne("What the hell is a skeet", 'ℹ️ [skeet]', 'Skeet faq failed'),
+    await checkOne("DID", '👀❓ [DID]', '[DID] faq failed'),
+    await checkOne("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+    await checkOne("skeet", '👀❓ [skeet]', 'Skeet faq failed'),
+    await checkOne("why honk?", '👀❓ [honk]', 'HONK faq failed'),
+    await checkOne("honk", '👀❓ [honk]', 'HONK faq failed'),
+    await checkOne("What the hell is a skeet", '👀❓ [skeet]', 'Skeet faq failed'),
 
     // check not existing items are passed thru
     await checkOne("i do not exist", undefined, 'found non-existent faq'),
 
   ]
   await Promise.all(checks)
-  clog.log(checks)
+  // clog.log(checks)
   // clog.log('testDispatcher passed')
 }
 

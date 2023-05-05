@@ -43,7 +43,7 @@
     "ATProto",
     "at proto / atproto / at-proto",
     "AT Proto is a protocol to support decentralized social networking",
-    "65",
+    "89",
     "https://atproto.com/docs",
     "docs"
   ],
@@ -53,7 +53,7 @@
     "PDS",
     "pds / personal data server",
     "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
-    "104",
+    "128",
     "https://atproto.com/docs",
     "docs"
   ],
@@ -63,7 +63,7 @@
     "DID",
     "did",
     "DIDs are unique global identifiers which strongly identify repositories",
-    "71",
+    "95",
     "https://atproto.com/docs",
     "docs"
   ],
@@ -84,7 +84,7 @@
     "skeetstudio",
     "skeetstudio",
     "overloading skeet facets",
-    "24",
+    "59",
     "https://retr0.id/stuff/skeetstudio/"
   ],
   [
@@ -131,7 +131,7 @@
     "social graph",
     "cluster / visualisation / social graph",
     "Check this site to see how we all cluster together",
-    "50",
+    "73",
     "https://bsky.jazco.dev/"
   ],
   [
@@ -140,7 +140,7 @@
     "alf",
     "alf / fuck alf",
     "Vibe with the elite shitposters",
-    "31",
+    "101",
     "https://staging.bsky.app/profile/faineg.bsky.social/post/3juyznaoiom2s"
   ],
   [
@@ -149,7 +149,7 @@
     "berduck",
     "berduck",
     "the intelligent rubber duck who helps you think out loud. from Deep Corp",
-    "72",
+    "137",
     "https://staging.bsky.app/profile/did:plc:czze3j5772nu6gxdhben5i34"
   ],
   [
@@ -174,16 +174,16 @@
     "twitter friends",
     "twitter friends",
     "Try this tool by  @assaf.bsky.social",
-    "36",
+    "54",
     "skeet.labnotes.org"
   ],
   [
     "1",
     "getting started",
     "getting started",
-    "getting started",
-    "Getting started\n1. Post thanking the person who invited you! \n2. Welcome & intro accounts you invited \n3. Look around & like generously\n4. Check the whatshot feed\n5. Chat live on @skyspaces.bsky.social\n6. Tell us about you 👇🏼\n7. Follow 5 new people",
-    "250",
+    "getting started / onboarding / new user / n00b / newbie / guide",
+    "Thank inviter!\nLike generously\nCheck whatshot\nChat live on @skyspaces.bsky.social\nIntro yourself\nFollow 5 people",
+    "199",
     "https://staging.bsky.app/profile/maile.bsky.social/post/3juu5yulwnr2e",
     "",
     "",
@@ -196,7 +196,7 @@
     "devs discord",
     "dev discord / discord",
     "Yes try Alice's API touchers discord",
-    "36",
+    "55",
     "discord.gg/XhK93rfW"
   ],
   [
@@ -205,7 +205,7 @@
     "clone follows",
     "clone followers / copy followers / copy follows / mirage / blue mirage",
     "Try the Blue Mirage app",
-    "23",
+    "65",
     "https://jiftechnify.github.io/blue-mirage/"
   ],
   [
@@ -214,7 +214,7 @@
     "faqlist",
     "faqlist",
     "Check on the github page for project info and here for the sheet of FAQs",
-    "72",
+    "155",
     "https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q"
   ],
   [
@@ -223,7 +223,7 @@
     "hellthread",
     "hellthread",
     "A super long thread that broke the site. Berduck kept replying. You could not leave but kept getting notifications. You do NOT want to join! ⚠️",
-    "143",
+    "211",
     "https://staging.bsky.app/profile/k1m.bsky.social/post/3juxfehevzt26 "
   ],
   [
@@ -231,7 +231,8 @@
     "What is parasocial",
     "parasocial",
     "parasocial",
-    "pseudo social online relationships"
+    "pseudo social online relationships",
+    "34"
   ],
   [
     "1",
@@ -239,11 +240,76 @@
     "asses and errors",
     "asses and errors",
     "A great essay on early bluesky by @sarahjeong.bsky.social",
-    "",
+    "166",
     "https://www.theverge.com/2023/5/2/23708385/bluesky-weather-report-moderation-app-store",
     "",
     "",
     "",
     "@sarahjeong.bsky.social"
+  ],
+  [
+    "1",
+    "what is whatsmid",
+    "whatsmid",
+    "whatsmid",
+    "Like whats hot but lower requirements\n- Older than 30 mins\n- Younger than 2 hours\n- >= 6 likes\n- <= 11 likes\n",
+    "162",
+    "https://staging.bsky.app/profile/whatsmid.bsky.social"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
   ]
 ]

@@ -9,6 +9,8 @@ Infra:
   ☐ links/facets support
   ☐ publicize a bit
   ☐ static page answers
+  ☐ catch errors and log
+  ☐ check esp for over long tweets
 
   ☐ database connect
 
