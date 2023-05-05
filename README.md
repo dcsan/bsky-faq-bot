@@ -1,18 +1,26 @@
 # bsky-faq-bot
 bluesky faq bot
 
+## How to use
+
 This is a simple FAQ bot to reply to common questions.
 
-Visit me at @faqbot.bsky.social or by permanent DID address here
+Visit me at [@faqbot.bsky.social](https://staging.bsky.app/profile/faqbot.bsky.social)
+
+[psky link](https://psky.app/profile/faqbot.bsky.social)
+
+or by permanent DID address here:
 https://staging.bsky.app/profile/did:plc:dy5c7snfz6vgniijd73a6d7z
 
-## try it out
 
 `@faqbot.bsky.social <question>`
 
+<image width='500' src='docs/faq-example.png' />
+
 We use some keyword terms and also fuzzy matching to find the best answer.
 
-## Data
+## Questions Data
+
 The content for the FAQs is currently stored in this google sheet.
 
 [FAQ Database sheet](https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q/edit#gid=0)
@@ -32,10 +40,6 @@ You can get an app password from inside the bluesky app to not expose your main 
 BOT_HANDLE=example.bot.handle.com
 BOT_PASSWORD=12345
 ```
-
-
-
-## install
 
 Using this awesome bot SDK from @tautologer
 
@@ -87,12 +91,7 @@ to update.
 
 
 ## TODO
-- [ ] custom openAI finetune
-- [ ] pipeline from openAI/GPT responses to local FAQ to enable images and other custom metadata
-- [ ] fuzzy matching on questions
-- [ ] search for best keyword hits in a question
-- [ ] NLP classifier matching
-- [ ] /teach command to add new questions and answers
 
+[My list](./docs/todo.todo)
 
-
+or feel free to [request a feature](https://github.com/dcsan/bsky-faq-bot/issues)
