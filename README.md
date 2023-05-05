@@ -75,6 +75,14 @@ Available recipes:
     test-sheet
 ```
 
+## deployment
+Trying out
+
+```
+fly launch
+fly deploy
+```
+
 
 ## TODO
 - [ ] custom openAI finetune
