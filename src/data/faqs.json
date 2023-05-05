@@ -6,7 +6,20 @@
     "keywords",
     "answer",
     "characters",
-    "linkUrl"
+    "linkUrl",
+    "linkText",
+    "imageUrl",
+    "imageAlt",
+    "author",
+    "seeAlso"
+  ],
+  [
+    "1",
+    "how to lookup a DID? / how do I find a DID from a handle?",
+    "lookup did",
+    "lookup did",
+    "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
+    "202"
   ],
   [
     "1",
@@ -23,7 +36,8 @@
     "at proto / atproto / at-proto",
     "AT Proto is a protocol to support decentralized social networking",
     "65",
-    "https://atproto.com/docs"
+    "https://atproto.com/docs",
+    "docs"
   ],
   [
     "1",
@@ -32,7 +46,8 @@
     "pds / personal data server",
     "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
     "104",
-    "https://atproto.com/docs"
+    "https://atproto.com/docs",
+    "docs"
   ],
   [
     "1",
@@ -41,7 +56,8 @@
     "did",
     "DIDs are unique global identifiers which strongly identify repositories",
     "71",
-    "https://atproto.com/docs"
+    "https://atproto.com/docs",
+    "docs"
   ],
   [
     "1",
@@ -49,7 +65,10 @@
     "looking into it",
     "looking into it",
     "another Jay meme. See \"steady lads\" ...",
-    "39"
+    "39",
+    "",
+    "",
+    "https://cdn.bsky.social/imgproxy/qvmTKYeiNZQhbVWnD1cXZx7s2SsDTzSFao9Xs6QvWx8/rs:fit:2000:2000:1:0/plain/bafkreiftexi7nui2zwmxffp2hoi3j2z2k6t4bcynqaorm46o6enp5zleti@jpeg"
   ],
   [
     "1",
@@ -57,7 +76,9 @@
     "skeetstudio",
     "skeetstudio",
     "overloading skeet facets",
-    "24"
+    "24",
+    "",
+    "https://retr0.id/stuff/skeetstudio/"
   ],
   [
     "1",
@@ -69,18 +90,65 @@
   ],
   [
     "1",
-    "how to lookup a DID? / how do I find a DID from a handle?",
-    "lookup did",
-    "lookup did",
-    "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
-    "202"
-  ],
-  [
-    "1",
     "What's psky",
     "psky",
     "psky",
     "a service to show previews of blueksy skeets. also handles redirect to staging (while needed)",
     "93"
+  ],
+  [
+    "1",
+    "test item",
+    "",
+    "",
+    "test with no topic or keywords you shouldn't see",
+    "48"
+  ],
+  [
+    "1",
+    "honk",
+    "honk",
+    "honk",
+    "Geese fly in the blue sky and they HONK! The adopted mascot of the bluesky community. ",
+    "86",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "Berduck"
+  ],
+  [
+    "1",
+    "how can I see a map of the users? / show me the social graph",
+    "social graph",
+    "cluster / visualisation / social graph",
+    "Check this site to see how we all cluster together\nhttps://bsky.jazco.dev/",
+    "74",
+    "https://bsky.jazco.dev/"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
   ]
 ]

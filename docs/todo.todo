@@ -1,4 +1,11 @@
 Infra:
-  ☐ deploy / nginx etc.
+  ✔ deploy / nginx etc. @done(23-05-05 18:51)
+  ☐ fuzzy matching for search based on questions with threshold
+  ☐ longer terms first
+  ☐ openAI finetune and search
+  ☐ images
+  ☐ links/facets support
+  ☐ publicize a bit
+
   ☐ database connect
 

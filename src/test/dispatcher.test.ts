@@ -57,6 +57,8 @@ async function testDispatcher() {
     await checkOne("DID", 'ℹ️ [DID]', '[DID] faq failed'),
     await checkOne("PDS", 'ℹ️ [PDS]', '[PDS] faq failed'),
     await checkOne("skeet", 'ℹ️ [skeet]', 'Skeet faq failed'),
+    await checkOne("why honk?", 'ℹ️ [honk]', 'HONK faq failed'),
+    await checkOne("honk", 'ℹ️ [honk]', 'HONK faq failed'),
     await checkOne("What the hell is a skeet", 'ℹ️ [skeet]', 'Skeet faq failed'),
     await checkOne("i do not exist", undefined, 'found non-existent faq'),
   ]
