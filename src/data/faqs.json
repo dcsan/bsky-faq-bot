@@ -62,16 +62,16 @@
   [
     "1",
     "what's a facet?",
-    "facets",
+    "facet",
     "facet",
     "URLs and mentions detected in posts. Limit 100kb",
     "48"
   ],
   [
     "1",
-    "how to lookup a DID?",
-    "did lookup",
-    "did lookup",
+    "how to lookup a DID? / how do I find a DID from a handle?",
+    "lookup did",
+    "lookup did",
     "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
     "202"
   ],

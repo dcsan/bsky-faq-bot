@@ -5,6 +5,7 @@
 
 set export
 set dotenv-load # load .env values to use in here
+set ignore-comments := true
 
 # list all recipes
 default:
@@ -31,7 +32,9 @@ run: cls build
 
 # --- deployment ----
 
-deploy: deploy-prepare build
+fetch-deploy: cls faqs-fetch deploy
+
+deploy: build
   fly deploy
 
 # remove local bot module

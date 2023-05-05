@@ -33,6 +33,10 @@ async function main() {
     const { post } = event;
     console.log(`got mention from ${post.author.handle}: ${post.text}`);
     await bot.like(post);
+
+    // const { user } = event;
+    // await bot.follow(user.did);
+
     const reply: string | undefined = await checkFaq(event, bot)
 
     if (reply && typeof reply === 'string') {
