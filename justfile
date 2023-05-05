@@ -64,3 +64,6 @@ docker-build:
   docker build . -t bsfaqbot
   docker run -dp 8080:8080 bsfaqbot
 
+docker-login name='bsfaqbot':
+  docker exec -it $name sh
+
