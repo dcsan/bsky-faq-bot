@@ -3,7 +3,11 @@ Infra:
   ✔ fuzzy matching for search based on questions with threshold @done(23-05-05 19:40)
   ✔ longer terms first @done(23-05-05 19:40)
   ✔ append plain links @done(23-05-06 15:09)
-  ☐ openAI simple search
+  ✔ openAI simple search @done(23-05-06 15:57)
+  ✔ word boundary match on regexs @done(23-05-06 16:22)
+
+  ☐ sort matches by word keylength
+  ☐ switch to JEST
   ☐ topics list
   ☐ finetune custom GPT model
   ☐ images
@@ -14,6 +18,8 @@ Infra:
   ☐ check esp for over long tweets
   ☐ split longer FAQs into multiple skeets
   ☐ corp FAQs  https://blueskyweb.xyz/faq
+
+  ☐ allow open replies but dedupe on mention/reply
 
   ☐ database connect
 

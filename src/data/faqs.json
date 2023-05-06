@@ -316,8 +316,8 @@
     "Where can I see the technical docs?",
     "tech docs",
     "tech docs",
-    "",
-    "30",
+    "check on the ATProto website",
+    "58",
     "https://atproto.com/guides/faq"
   ],
   [
@@ -337,5 +337,14 @@
     "Mastodon is based on ActivityPub and we wanted to take a new approach with ATProto",
     "136",
     "https://atproto.com/guides/faq#why-not-use-activitypub"
+  ],
+  [
+    "1",
+    "Where can I see all the FAQs?",
+    "faq topics",
+    "faq topics / topiclist",
+    "You can see / add / edit on this google sheet!",
+    "129",
+    "https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q"
   ]
 ]

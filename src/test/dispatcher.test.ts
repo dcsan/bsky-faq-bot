@@ -8,61 +8,76 @@ import { faqManager } from "../models/FaqManager";
 const clog = console
 const testBot = new MockBot();
 
-// function getFaqReply(expected: string, msg: string): boolean {
-//   const lastReply = testBot.lastReply
-//   if (!lastReply || !lastReply.startsWith(expected)) {
-//     clog.warn('error:', msg)
-//     clog.warn('expected:', expected)
-//     clog.warn('=>actual:', lastReply)
-//     return false
-//     // throw new Error('testDispatcher failed')
-//   }
-//   return true
-// }
-
+/**
+ * check whole input chain including openAI/GPT replies
+ * @param input
+ * @param expected
+ * @param msg
+ * @returns
+ */
 async function checkHandleInput(
   input: string,
   expected: string | undefined,
-  msg?: string): Promise<string | undefined> {
-
-  clog.log('\n----')
+  msg?: string
+): Promise<boolean> {
 
   const event = new MockEvent({
     text: input
   })
   testBot.reset()
-  const replyMsg = await handleInput(event, testBot) // reply is stashed in mockbot
+  const actual = await handleInput(event, testBot) // reply is stashed in mockbot
+  return assertMatch(input, expected, actual, msg)
+}
 
-  if (expected == undefined && replyMsg == undefined) {
+/**
+ * just check the FAQ manager - keywords/fuzzy string
+ * @param input
+ * @param expected
+ * @param msg
+ * @returns
+ */
+async function checkFaqReply(
+  input: string,
+  expected: string | undefined,
+  msg?: string
+): Promise<boolean> {
+  const actual = await faqManager.getReplyText(input)
+  return assertMatch(input, expected, actual, msg)
+}
+
+/**
+ * show message on output pass/fail
+ * @param input
+ * @param expected
+ * @param actual
+ * @param msg
+ * @returns
+ */
+function assertMatch(
+  input: string,
+  expected: string | undefined,
+  actual: string | undefined,
+  msg?: string
+): boolean {
+
+  if (expected == undefined && actual == undefined) {
     clog.log('✅ ', input, '=>', undefined)
-    return
+    return true
   }
 
-  if (replyMsg?.startsWith(expected!)) {
-    clog.log('✅ ', input, '=>', replyMsg)
+  if (actual?.startsWith(expected!)) {
+    clog.log('✅ ', input, '=>', actual.split('\n')[0])
+    return true
   } else {
-    clog.warn('❌ ', input, '=>', replyMsg)
+    clog.warn('❌ ', input, '=>', actual)
     clog.warn('error:', msg)
     clog.warn('expected:', expected)
-    clog.warn('=>actual:', replyMsg)
-  }
-
-  return replyMsg
-}
-
-async function checkFaqReply(
-  input: string, expected: string | undefined, msg?: string
-): Promise<boolean> {
-  const output = await faqManager.getReplyText(input)
-  if (output != expected) {
-    clog.warn('❌ ', input, '=>', output)
-    clog.warn('expected:', expected)
-    clog.warn('=>actual:', output)
-    msg && clog.warn(msg)
+    clog.warn('=>actual:', actual)
     return false
   }
-  return true
+
 }
+
 
 async function testDispatcher() {
   const checks = [
@@ -78,7 +93,6 @@ async function testDispatcher() {
     await checkHandleInput("onboarding guide", '👀❓ [getting started]'),
     await checkHandleInput("newbie", '👀❓ [getting started]'),
 
-
     // single word keyword items
     await checkHandleInput("DID", '👀❓ [DID]', '[DID] faq failed'),
     await checkHandleInput("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
@@ -89,6 +103,10 @@ async function testDispatcher() {
 
     // check not existing items are passed thru
     await checkFaqReply("i do not exist", undefined, 'found non-existent faq'),
+
+    // keywords with boundaries
+    await checkFaqReply("tell me about shitposting", undefined, 'should NOT match shitposting (on post/skeet)'),
+    await checkFaqReply("tell me a post", '👀❓ [skeet]', 'SHOULD match on post'),
 
   ]
   await Promise.all(checks)

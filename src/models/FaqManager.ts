@@ -18,6 +18,7 @@ class FaqManager {
 
   faqData: Faq[] = []
   faqPath: string
+  verbose = false
 
   constructor() {
     // for writing
@@ -39,21 +40,21 @@ class FaqManager {
         // using a short substr length since we expect short questions
         const score = stringSimilarity(query, exampleQuestion, 5)
         if (score > localConfig.simThreshold) {
-          clog.log(`score ${score} input :[${query}] => question: `, exampleQuestion)
+          // clog.log(`score ${score} input :[${query}] => question: `, exampleQuestion)
           matches.push({ score, faq })
         }
       }
     }
 
     if (matches.length == 0) {
-      clog.warn(`no faq by question for:[${query}]`)
+      this.verbose && clog.warn(`no faq by question for:[${query}]`)
       return
     }
 
     // sort by score and return only one item
     // TODO if scores are close, return top 3 matches and disambig in the client
     matches = matches.sort((a, b) => b.score - a.score)
-    clog.log('matches', matches)
+    // clog.log('matches', matches)
     return matches[0].faq
 
   }
@@ -64,8 +65,9 @@ class FaqManager {
 
       for (let keyword of faq.keywords) {
         if (!keyword) continue // empty "" items
-        if (query.includes(keyword)) {
-          clog.log(`faq found for query:[${query}] => topic: `, faq.topic)
+        const rex = `\\b${keyword}\\b`  // match whole word only
+        if (query.match(rex)) {
+          this.verbose && clog.log(`faq found for query:[${query}] => topic: `, faq.topic)
           return faq
         }
       }
@@ -73,7 +75,7 @@ class FaqManager {
     // TODO fuzzy match / levenshtein distance
     // TODO NLP search
     // TODO return top 3 matches
-    clog.warn(`no faq found by keyword for:[${query}]`)
+    this.verbose && clog.warn(`no faq found by keyword for:[${query}]`)
   }
 
   /**
@@ -185,7 +187,6 @@ class FaqManager {
       `hmmm, ${input} I'm not sure, sorry!`,
     ]
     const reply = _.sample(options) as string
-    // const reply = `no faq found for [${input}]`
     return reply
   }
 

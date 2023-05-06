@@ -10,7 +10,7 @@ export class MockBot {
   reply(text: string, post?: any) {
     // ignore post for now
     this.lastReply = text;
-    console.log(`mockBot.reply: ${text}`);
+    // console.log(`mockBot.reply: ${text}`);
   }
 }
 
