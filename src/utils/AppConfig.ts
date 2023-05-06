@@ -19,8 +19,12 @@ const AppConfig = {
   // SERVICE_ACCOUNT_PRIVATE_KEY: env('SERVICE_ACCOUNT_PRIVATE_KEY'),
   FAQ_SHEET_ID: env('FAQ_SHEET_ID'),
 
-  OPENAI_API_KEY: env('OPENAI_API_KEY')
+  OPENAI_API_KEY: env('OPENAI_API_KEY'),
 
+  EXPANSIONS: [
+    ['woa', ' wrong answers only'],
+    ['quackity', ' talk like a duck'],
+  ]
 
 }
 

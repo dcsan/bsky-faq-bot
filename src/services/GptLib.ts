@@ -21,6 +21,7 @@ class GptLib {
   }
 
   async complete(text: string, instruction?: string): Promise<CreateCompletionResponse> {
+    text = this.expansions(text)
     instruction = instruction || "reply in 45 words or less. "
     const prompt = instruction + text
     const request: CreateCompletionRequest = {
@@ -33,6 +34,25 @@ class GptLib {
     const data: CreateCompletionResponse = completion.data
     this.verbose && clog.log('completion.data', JSON.stringify(data, null, 2))
     return data
+  }
+
+  /**
+   * replace some basic shortcuts
+   * @param input
+   * @returns
+   */
+  expansions(input: string): string {
+    for (let items of AppConfig.EXPANSIONS) {
+      const [search, replace] = items
+      // const rex = `/${search}/g`
+      const rex = new RegExp(`${search}`, "i")
+      input = input.replace(rex, replace) // reuse input
+      // console.log('\nrex=>', rex)
+      // console.log('before=>', input)
+      // console.log('replace=>', search, replace)
+      // console.log('after=>', after)
+    }
+    return input
   }
 
   async reply(input: string): Promise<GptReply> {
