@@ -7,10 +7,12 @@ Infra:
   ✔ word boundary match on regexs @done(23-05-06 16:22)
 
   ☐ sort matches by word keylength
-  ☐ switch to JEST
-  ☐ topics list
+  ☐ switch to JEST for testing
+  ☐ topics list summary?
+
   ☐ finetune custom GPT model
-  ☐ images
+
+  ☐ send images
   ☐ links/facets support
   ☐ publicize a bit
   ☐ static page answers

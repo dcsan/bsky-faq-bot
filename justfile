@@ -50,6 +50,15 @@ dev-prepare:
   cd ../easy-bsky-bot-sdk && npm run build
   npm i ../easy-bsky-bot-sdk
 
+
+# stop app on fly https://fly.io/docs/apps/scale-count/#scale-to-zero-and-back-up
+fly-stop:
+  fly scale count web=0 worker=0
+  fly scale show
+
+
+# --- testing -----
+
 test-faq-replies: cls
   ts-node src/test/dispatcher.test.ts
 
