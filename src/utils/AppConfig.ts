@@ -17,7 +17,11 @@ const AppConfig = {
   // google sheets
   // SERVICE_ACCOUNT_EMAIL: env('SERVICE_ACCOUNT_EMAIL'),
   // SERVICE_ACCOUNT_PRIVATE_KEY: env('SERVICE_ACCOUNT_PRIVATE_KEY'),
-  FAQ_SHEET_ID: env('FAQ_SHEET_ID')
+  FAQ_SHEET_ID: env('FAQ_SHEET_ID'),
+
+  OPENAI_API_KEY: env('OPENAI_API_KEY')
+
+
 }
 
 

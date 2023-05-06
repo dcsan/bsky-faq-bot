@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
-import { checkFaq } from "./commands/dispatcher";
+import { handleInput } from "./commands/dispatcher";
 import { atToWeb } from "./utils/atHelpers";
 
 import { AppConfig } from "./utils/AppConfig";
@@ -37,15 +37,7 @@ async function main() {
     // const { user } = event;
     // await bot.follow(user.did);
 
-    const reply: string | undefined = await checkFaq(event, bot)
-
-    if (reply && typeof reply === 'string') {
-      await bot.reply(reply, post);
-    } else {
-      const defaultReply = faqManager.notFoundReply(post.text)
-      await bot.reply(defaultReply, post);
-      console.warn('no reply for input:', post.text)
-    }
+    await handleInput(event, bot)
     // TODO chatGPT etc
   });
 

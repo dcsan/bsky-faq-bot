@@ -2,8 +2,9 @@ Infra:
   ✔ deploy / nginx etc. @done(23-05-05 18:51)
   ✔ fuzzy matching for search based on questions with threshold @done(23-05-05 19:40)
   ✔ longer terms first @done(23-05-05 19:40)
-  ☐ append plain links
+  ✔ append plain links @done(23-05-06 15:09)
   ☐ openAI simple search
+  ☐ topics list
   ☐ finetune custom GPT model
   ☐ images
   ☐ links/facets support
@@ -12,6 +13,7 @@ Infra:
   ☐ catch errors and log
   ☐ check esp for over long tweets
   ☐ split longer FAQs into multiple skeets
+  ☐ corp FAQs  https://blueskyweb.xyz/faq
 
   ☐ database connect
 

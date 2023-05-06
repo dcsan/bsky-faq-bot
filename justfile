@@ -53,6 +53,9 @@ dev-prepare:
 test-faq-replies: cls
   ts-node src/test/dispatcher.test.ts
 
+test-gpt-lib: cls
+  ts-node src/test/gptLib.test.ts
+
 test-sheet: cls build
   ts-node src/utils/sheets.ts
 

@@ -192,7 +192,7 @@ class FaqManager {
   /**
    * @description find a faq by keyword or the 'sorry no reply' message
    */
-  async getFormattedReplyOrDefault(input: string): Promise<string | undefined> {
+  async getReplyText(input: string): Promise<string | undefined> {
     const cleaned: string = input.trim().toLowerCase();
     const faq =
       await this.findFaqByQuestions(cleaned) ||

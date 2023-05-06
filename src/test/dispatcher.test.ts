@@ -2,7 +2,8 @@
 // import assert from "assert";
 
 import { MockBot, MockEvent } from "./MockBot";
-import { checkFaq } from "../commands/dispatcher";
+import { handleInput } from "../commands/dispatcher";
+import { faqManager } from "../models/FaqManager";
 
 const clog = console
 const testBot = new MockBot();
@@ -19,7 +20,7 @@ const testBot = new MockBot();
 //   return true
 // }
 
-async function checkOne(
+async function checkHandleInput(
   input: string,
   expected: string | undefined,
   msg?: string): Promise<string | undefined> {
@@ -30,7 +31,7 @@ async function checkOne(
     text: input
   })
   testBot.reset()
-  const replyMsg = await checkFaq(event, testBot) // reply is stashed in mockbot
+  const replyMsg = await handleInput(event, testBot) // reply is stashed in mockbot
 
   if (expected == undefined && replyMsg == undefined) {
     clog.log('✅ ', input, '=>', undefined)
@@ -49,31 +50,45 @@ async function checkOne(
   return replyMsg
 }
 
+async function checkFaqReply(
+  input: string, expected: string | undefined, msg?: string
+): Promise<boolean> {
+  const output = await faqManager.getReplyText(input)
+  if (output != expected) {
+    clog.warn('❌ ', input, '=>', output)
+    clog.warn('expected:', expected)
+    clog.warn('=>actual:', output)
+    msg && clog.warn(msg)
+    return false
+  }
+  return true
+}
+
 async function testDispatcher() {
   const checks = [
     // input, expect, msg
 
     // based on full question matches / string sim
-    await checkOne("what's a did", '👀❓ [DID]', '[DID] faq failed'),
-    await checkOne("what is a did", '👀❓ [DID]', '[DID] faq failed'),
-    await checkOne("What is a PDS", '👀❓ [PDS]', '[PDS] faq failed'),
-    await checkOne("What's psky", '👀❓ [psky]', '[psky] faq failed'),
+    await checkHandleInput("what's a did", '👀❓ [DID]', '[DID] faq failed'),
+    await checkHandleInput("what is a did", '👀❓ [DID]', '[DID] faq failed'),
+    await checkHandleInput("What is a PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+    await checkHandleInput("What's psky", '👀❓ [psky]', '[psky] faq failed'),
 
-    await checkOne("what in the world is a DID I wonder", '👀❓ [DID]', '[DID] long '),
-    await checkOne("onboarding guide", '👀❓ [getting started]'),
-    await checkOne("newbie", '👀❓ [getting started]'),
+    await checkHandleInput("what in the world is a DID I wonder", '👀❓ [DID]', '[DID] long '),
+    await checkHandleInput("onboarding guide", '👀❓ [getting started]'),
+    await checkHandleInput("newbie", '👀❓ [getting started]'),
 
 
     // single word keyword items
-    await checkOne("DID", '👀❓ [DID]', '[DID] faq failed'),
-    await checkOne("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
-    await checkOne("skeet", '👀❓ [skeet]', 'Skeet faq failed'),
-    await checkOne("why honk?", '👀❓ [honk]', 'HONK faq failed'),
-    await checkOne("honk", '👀❓ [honk]', 'HONK faq failed'),
-    await checkOne("What the hell is a skeet", '👀❓ [skeet]', 'Skeet faq failed'),
+    await checkHandleInput("DID", '👀❓ [DID]', '[DID] faq failed'),
+    await checkHandleInput("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+    await checkHandleInput("skeet", '👀❓ [skeet]', 'Skeet faq failed'),
+    await checkHandleInput("why honk?", '👀❓ [honk]', 'HONK faq failed'),
+    await checkHandleInput("honk", '👀❓ [honk]', 'HONK faq failed'),
+    await checkHandleInput("What the hell is a skeet", '👀❓ [skeet]', 'Skeet faq failed'),
 
     // check not existing items are passed thru
-    await checkOne("i do not exist", undefined, 'found non-existent faq'),
+    await checkFaqReply("i do not exist", undefined, 'found non-existent faq'),
 
   ]
   await Promise.all(checks)

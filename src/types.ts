@@ -18,3 +18,28 @@ export type FaqReply = {
   reply?: string
   faq?: Faq
 }
+
+
+export type GptReply = {
+  input: string
+  output: string
+  length: number
+}
+
+// export type GptReplyChoice = {
+//   text: string
+//   "index": number,
+//   "logprobs": any,
+//   "finish_reason": string // "length" or "stop"
+// }
+
+// export type GptReplyData = {
+//   choices: GptReplyChoice[]
+//   "usage": {
+//     "prompt_tokens": number,
+//     "completion_tokens": number,
+//     "total_tokens": number
+//   }
+// }
+
+
