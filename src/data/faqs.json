@@ -260,7 +260,7 @@
     "1",
     "what is skyspaces",
     "skyspaces",
-    "skyspaces",
+    "skyspaces / spaces / audio chat",
     "Social Audio & Video for BlueSky",
     "108",
     "https://staging.bsky.app/profile/skyspaces.bsky.social",
@@ -270,51 +270,72 @@
     "@skyspaces.bsky.social"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "what is Plurigrid ",
+    "plurigrid",
+    "plurigrid",
+    "Check this out on Poe: https://poe.com/bartonus",
+    "47"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "How do I get more invites",
+    "invites",
+    "invites",
+    "Most invites are now given out through existing Bluesky users. New users get one invite every two weeks. We monitor the social graph, and give out more invites based on this\n\n",
+    "201",
+    "https://blueskyweb.xyz/faq"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "Who is on the board?",
+    "board",
+    "board / PBLLC",
+    "Bluesky, the company, is a Public Benefit LLC. It is owned by Jay Graber and the Bluesky team. Jack Dorsey and Jeremie Miller serve on the board, along with Jay. ",
+    "162"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "Why use invite codes? / Why use invites?",
+    "why invites",
+    "why invites / why codes / why invite codes",
+    "Social networks can be abused. It’s much easier to limit sign-ups than to try to retroactively clean up rampant network abuse.",
+    "126"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "What's your plan for moderation?",
+    "moderation",
+    "moderation",
+    "three-fold: automated filtering, manual admin actions, and community labeling. Open and composable labeling will allow anyone to define and apply labels",
+    "200",
+    "https://blueskyweb.xyz/blog/4-13-2023-moderation"
   ],
   [
+    "1",
+    "Where can I see the technical docs?",
+    "tech docs",
+    "tech docs",
     "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "30",
+    "https://atproto.com/guides/faq"
+  ],
+  [
+    "1",
+    "Why not use ActivityPub?",
+    "ActivityPub",
+    "ActivityPub",
+    "Account portability is the major reason. It protects users. Our solution requires both signed data repos and DIDs",
+    "167",
+    "https://atproto.com/guides/faq#why-not-use-activitypub"
+  ],
+  [
+    "1",
+    "What's the difference with Mastodon",
+    "mastodon",
+    "mastodon",
+    "Mastodon is based on ActivityPub and we wanted to take a new approach with ATProto",
+    "136",
+    "https://atproto.com/guides/faq#why-not-use-activitypub"
   ]
 ]
