@@ -107,6 +107,7 @@ async function testDispatcher() {
     // keywords with boundaries
     await checkFaqReply("tell me about shitposting", undefined, 'should NOT match shitposting (on post/skeet)'),
     await checkFaqReply("tell me a post", '👀❓ [skeet]', 'SHOULD match on post'),
+    await checkFaqReply("Why not use ActivityPub?", '👀❓ [ActivityPub]', 'punctuation on user keyword input'),
 
   ]
   await Promise.all(checks)

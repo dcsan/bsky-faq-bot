@@ -131,6 +131,9 @@ class FaqManager {
         author: row[10],
         seeAlso: splitItems(row[11]),
       }
+      if (!faq.questions || !faq.answer) {
+        continue // skip empty rows
+      }
       faq = this.fillDefaults(faq)
       faqRows.push(faq)
     }
@@ -146,6 +149,9 @@ class FaqManager {
   // add defaults or fill in missing values
   fillDefaults(faq: Faq): Faq {
     if (!faq.approved) { faq.approved = 1 }
+    if (!faq.keywords && faq.topic) {
+      faq.keywords = [faq.topic]
+    }
     if (!faq.questions || faq.questions.length === 0) {
       if (faq.keywords) {
         faq.questions = faq.keywords.map((keyword: string) => `What is a ${keyword}`)
@@ -206,50 +212,6 @@ class FaqManager {
     // if (!faq) return this.notFoundReply(input)
   }
 
-
-  // async searchFaqs(input: string): Promise<Faq | undefined> {
-  //   const faq = await this.findFaq(input)
-  //   if (faq) return faq
-  // }
-
-  /**
-   * if user says "faq <topic>" and we cannot find a faq we still reply wtih a 'not found'
-   * @param text
-   * @returns reply and faq if found
-   */
-  // async checkFaqCommand(text: string): Promise<FaqReply | undefined> {
-  //   // TODO word boundary
-  //   const chunks = text.match(/(faq )(.*)$/i)
-  //   if (!chunks) {
-  //     // TODO more cmds
-  //     clog.warn('no regex match for faq')
-  //     return undefined
-  //   }
-  //   clog.log('faq groups:', chunks)
-
-  //   let reply: string | undefined = undefined
-  //   let faq: Faq | undefined = undefined
-  //   if (chunks[1] === 'faq ') {
-  //     // match is 'faq<space><topic>' for the command - TODO word boundaries
-  //     const topic = chunks[2]
-  //     clog.log(`faq topic: [${topic}]`)
-  //     faq = await faqManager.findFaq(topic)
-  //     if (!faq) {
-  //       reply = `sorry no faq found for [${topic}]`
-  //       clog.warn(reply)
-  //     } else {
-  //       // format reply
-  //       reply = `faq topic: [${faq.topic}]\nℹ️ ${faq.answer}`
-  //       // TODO add links and find facets
-  //       clog.log('faq reply:', reply)
-  //     }
-  //   }
-  // const result = {
-  //   reply,
-  //   faq
-  // }
-  //   return result
-  // }
 
 }
 
