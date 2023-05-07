@@ -28,7 +28,8 @@ export type GptReply = {
 export type MudCommand = {
   name: string;
   keys: string[]
+  input?: string
   description?: string;
   args?: string[];
-  handler: (args: string[]) => void;
+  handler?: (args: string[] | undefined) => void;
 }

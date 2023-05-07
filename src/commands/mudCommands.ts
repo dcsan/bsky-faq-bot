@@ -4,23 +4,25 @@ import { AppConfig } from "../utils/AppConfig";
 
 const clog = console
 
-const cmdList = [
-  {
-    keys: ['/help'],
-    name: 'help',
-    func: 'help',
-  },
-  {
-    keys: ['/go'],
-    name: 'go',
-    func: 'help',
-  }
-]
 
 class MudParser {
 
+  cmdList: MudCommand[]
 
   constructor() {
+    const cmdList: MudCommand[] = [
+      {
+        keys: ['/help'],
+        name: 'help',
+        handler: this.help,
+      },
+      {
+        keys: ['/go'],
+        name: 'go',
+        handler: this.go,
+      }
+    ]
+    this.cmdList = cmdList
   }
 
   parseForBotName(input: string) {
@@ -44,7 +46,7 @@ class MudParser {
     let key = content.split(' ')[0];
 
     // first one
-    const cmd = cmdList.find((cmd) => {
+    const cmd = this.cmdList.find((cmd) => {
       return cmd.keys.includes(key)
     })
     if (!cmd) {
@@ -58,30 +60,42 @@ class MudParser {
     // clog.log({ after, args })
 
     // @ts-ignore
-    const handler: any = this[cmd.func]
+    // const handler: any = this[cmd.func]
 
     // clog.log(`cmd key: ${key}, arg: ${after} `)
 
     if (!key) {
       return undefined;
     }
-    return {
-      ...cmd,
+    const result = {
       args,
-      handler
+      // handler,
+      input,
+      ...cmd,
     }
-  }
 
-  public async go(args: string[]): Promise<void> {
-    clog.log('go command')
-  }
-
-  public runCommand(key: string, args: string[]): void {
+    clog.log('cmd:', result)
+    return result
 
   }
 
-  public async help(args: string[]): Promise<void> {
-    clog.log('help command goes here')
+  public async runCommand(cmd: MudCommand): Promise<void> {
+    if (!cmd.handler) {
+      clog.error('no handler for cmd:', cmd)
+      return
+    }
+    const result = await (cmd.handler(cmd.args))
+    return result
+  }
+
+  public async help(args: string[] | undefined): Promise<string> {
+    clog.log('help.cmd')
+    return `help ${args}`
+  }
+
+  public async go(args: string[] | undefined): Promise<string> {
+    clog.log('go.cmd')
+    return `go ${args}`
   }
 
 }

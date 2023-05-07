@@ -17,6 +17,7 @@ async function testMudCommands() {
 
   for (let item of testList) {
     const input = item.input;
+    clog.log('\n-- item:', item.input)
 
     const found = await mudParser.parseCommand(input);
     if (!found) {
@@ -26,13 +27,22 @@ async function testMudCommands() {
     if (found.name !== item.name) {
       console.error(`name mismatch: ${found.name} !== ${item.name}`)
       console.warn({ item, found })
+      continue
     }
-    else if (found.args && found.args[0] != item.args[0]) {
+    if (found.args && found.args[0] != item.args[0]) {
       console.error(`args mismatch: ${found.args} !== ${item.args}`)
       console.warn({ item, found })
-    } else {
-      console.log('✅ ', item.input)
+      continue
     }
+    if (!found.handler) {
+      console.error(`handler not found:`, item, found)
+      continue
+    }
+
+    console.log('✅ ', item.input)
+    const result = await mudParser.runCommand(found)
+    clog.log('cmd.result:', result)
+
   }
 
 }
