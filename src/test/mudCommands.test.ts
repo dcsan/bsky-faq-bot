@@ -1,8 +1,9 @@
 // test for dispatcher with mock bot
 // import assert from "assert";
 
-import { AppConfig } from "../utils/AppConfig";
 import { mudParser } from "../commands/mudCommands";
+// import { AppConfig } from "../utils/AppConfig";
+// import { gptLib } from "src/services/GptLib";
 
 const clog = console
 
@@ -40,9 +41,13 @@ async function testMudCommands() {
     }
 
     console.log('✅ ', item.input)
-    const result = await mudParser.runCommand(found)
-    clog.log('cmd.result:', result)
+    const output: string = await mudParser.runCommand(found)
+    // if (!cmdText) {
+    //   console.error('no result for:', item)
+    //   continue
+    // }
 
+    clog.log('output:', output)
   }
 
 }

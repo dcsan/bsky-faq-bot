@@ -1,5 +1,7 @@
+import { gptLib } from "../services/GptLib";
 import { MudCommand } from "../types";
 import { AppConfig } from "../utils/AppConfig";
+import { mudWrapper } from "./mudPrompts";
 
 
 const clog = console
@@ -20,6 +22,11 @@ class MudParser {
         keys: ['/go'],
         name: 'go',
         handler: this.go,
+      },
+      {
+        keys: ['/look'],
+        name: 'look',
+        handler: this.look,
       }
     ]
     this.cmdList = cmdList
@@ -79,13 +86,16 @@ class MudParser {
 
   }
 
-  public async runCommand(cmd: MudCommand): Promise<void> {
+  public async runCommand(cmd: MudCommand): Promise<string> {
     if (!cmd.handler) {
-      clog.error('no handler for cmd:', cmd)
-      return
+      throw new Error('no handler for cmd:' + cmd.name)
     }
-    const result = await (cmd.handler(cmd.args))
-    return result
+    const cmdText = await (cmd.handler(cmd.args))
+    const prompt = await mudParser.wrapCommand(cmdText)
+    // clog.log('cmd.result:', { result: cmdText, prompt })
+
+    const output = await gptLib.reply(prompt)
+    return output.output
   }
 
   public async help(args: string[] | undefined): Promise<string> {
@@ -98,18 +108,22 @@ class MudParser {
     return `go ${args}`
   }
 
+  public async look(args: string[] | undefined): Promise<string> {
+    if (args) {
+      return `examine ${args.join(' ')}`
+    } else {
+      return `look`
+    }
+  }
+
+  async wrapCommand(text: string) {
+    const output = mudWrapper.replace('[USER_COMMAND]', text)
+    return output
+  }
+
 }
 
-const mudParser = new MudParser();
 
-
-// const commandAlias = [
-//   {
-//     keys: ['help'],
-//     name: 'help command',
-//     description: 'list commands',
-//     handler: mudCommands.help
-//   },
-// ]
+const mudParser = new MudParser()
 
 export { mudParser }

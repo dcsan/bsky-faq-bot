@@ -253,8 +253,12 @@
     "whatsmid",
     "whatsmid",
     "Like whats hot but lower requirements\n- Older than 30 mins\n- Younger than 2 hours\n- >= 6 likes\n- <= 11 likes\n",
-    "162",
-    "https://staging.bsky.app/profile/whatsmid.bsky.social"
+    "174",
+    "https://staging.bsky.app/profile/whatsmid.bsky.social",
+    "",
+    "",
+    "",
+    "@tomh.social"
   ],
   [
     "1",
@@ -434,5 +438,102 @@
     "skyline",
     "Alternate to \"timeline\"",
     "23"
+  ],
+  [
+    "1",
+    "Where can I find more information, apps or tools about Bluesky? ",
+    "Bluesky information, tools and apps",
+    "bluesky information / resources / tools",
+    "Check the Bluesky Resources hub at https://bskyhub.ferran.cc to know more about Bluesky and the AT Protocol. Find guides, apps, and more.",
+    "162",
+    "https://bskyhub.ferran.cc"
+  ],
+  [
+    "1",
+    "What third party clients exist?",
+    "3rd party clients",
+    "clients / 3rd party / third party",
+    "some well known 3rd party apps:\n- moot https://testflight.apple.com/join/PWzzz0zi\n- greysky https://graysky.app/\n- skyline https://skyline.gay/",
+    "143"
+  ],
+  [
+    "1",
+    "What is skyline.gay",
+    "skyline.gay",
+    "skyline.gay",
+    "Custom moderation algos first way to view - definitely the future in terms of how we will be interacting with our skylines",
+    "153",
+    "https://skyline.gay",
+    "",
+    "",
+    "",
+    "@skyline.gay"
+  ],
+  [
+    "1",
+    "What is graysky",
+    "graysky",
+    "graysky",
+    "Feels like the the most complete client, it has a likes tab on your profile & I like the mutuals tab\nby @graysky.app",
+    "148",
+    "https://graysky.app/",
+    "",
+    "",
+    "",
+    "@graysky.app"
+  ],
+  [
+    "1",
+    "What is Moot",
+    "moot",
+    "moot",
+    "*feels* nice, probably because it's native iOS. Is adding features v frequently",
+    "125",
+    "testflight.apple.com/join/PWzzz0z\n",
+    "",
+    "",
+    "",
+    "@moot.social"
+  ],
+  [
+    "1",
+    "How can I see my likes",
+    "likes",
+    "likes",
+    "@graysky.app shows a likes tab on profile pages",
+    "106",
+    "https://staging.bsky.app/profile/prer.at/post/3jv5dfxgekb2m"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
+  ],
+  [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "0"
   ]
 ]

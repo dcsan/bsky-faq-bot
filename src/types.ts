@@ -31,5 +31,5 @@ export type MudCommand = {
   input?: string
   description?: string;
   args?: string[];
-  handler?: (args: string[] | undefined) => void;
+  handler?: (args: string[] | undefined) => Promise<string>;
 }
