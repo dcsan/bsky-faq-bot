@@ -24,14 +24,13 @@ async function main() {
     handle: handle,
     replyToNonFollowers: true,
   });
-
   await bot.login(password);
 
   // await bot.post({ text: "bot sez hello world" });
 
   bot.setHandler(Events.MENTION, async (event) => {
     const { post } = event;
-    console.log(`got mention from ${post.author.handle}: ${post.text}`);
+    console.log(`new mention \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
     await bot.like(post);
 
     // const { user } = event;
@@ -64,7 +63,8 @@ async function main() {
   });
 
   bot.startPolling({
-    interval: 10000,  // ms = 10s
+    // interval: 10000,  // ms = 10s
+    interval: 5000,  // ms = 10s
   }); // start polling for events
   console.log("bot started polling:", botOwner);
 }

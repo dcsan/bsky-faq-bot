@@ -30,6 +30,8 @@ export type MudCommand = {
   keys: string[]
   input?: string
   description?: string;
+  help?: string
+  type?: 'gpt' | 'text' | 'error'
   args?: string[];
   handler?: (args: string[] | undefined) => Promise<string>;
 }

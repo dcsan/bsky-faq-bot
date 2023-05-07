@@ -34,7 +34,7 @@ run: cls build
 
 fetch-deploy: cls faqs-fetch deploy
 
-deploy: build
+deploy: build fly-resume
   fly deploy
 
 # remove local bot module
@@ -53,9 +53,11 @@ dev-prepare:
 
 # stop app on fly https://fly.io/docs/apps/scale-count/#scale-to-zero-and-back-up
 fly-stop:
-  fly scale count web=0 worker=0
+  fly scale count 0
   fly scale show
 
+fly-resume:
+  flyctl scale count 1
 
 # --- testing -----
 

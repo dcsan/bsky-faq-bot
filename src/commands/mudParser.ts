@@ -6,6 +6,14 @@ import { mudWrapper } from "./mudPrompts";
 
 const clog = console
 
+// todo handle direct responses like "take what?"
+// handle "you can't do that" responses
+// handle "you can't go that way" responses
+// plaintext responses vs those needing more
+// go/look/... only without a /slash = show hint for now
+// how to pass through more fuzzy commands without it going to the basic GPT facts responder?
+
+// TODO: /drop /inventory /help
 
 class MudParser {
 
@@ -17,6 +25,8 @@ class MudParser {
         keys: ['/help'],
         name: 'help',
         handler: this.help,
+        help: '[help]\ncommands are: \n/go <direction> \n/look <item>\n/take <item>',
+        type: 'text'
       },
       {
         keys: ['/go'],
@@ -27,20 +37,36 @@ class MudParser {
         keys: ['/look'],
         name: 'look',
         handler: this.look,
+      },
+      {
+        name: 'take',
+        keys: ['/take', '/get', '/pickup'],
+        handler: this.take,
       }
     ]
     this.cmdList = cmdList
   }
 
   parseForBotName(input: string) {
-
     let content
     if (input.includes(AppConfig.BOT_HANDLE)) {
-      content = input.split(AppConfig.BOT_HANDLE)[1]
+      const [name, rest] = input.split(AppConfig.BOT_HANDLE)
+      content = rest.trim()
+      clog.log('parseForBotName:', { name, content })
     } else {
       content = input
     }
     return content
+  }
+
+  async parseRespond(input: string): Promise<string | undefined> {
+    const found = await mudParser.parseCommand(input);
+    if (!found) {
+      return undefined
+    }
+    const output: string = await mudParser.runCommand(found)
+    clog.log('mud response=>\n', { input, found, output })
+    return output
   }
 
   async parseCommand(input: string): Promise<MudCommand | undefined> {
@@ -87,12 +113,18 @@ class MudParser {
   }
 
   public async runCommand(cmd: MudCommand): Promise<string> {
+
+    if (cmd.type === 'text') {
+      return cmd.help!
+    }
+
     if (!cmd.handler) {
       throw new Error('no handler for cmd:' + cmd.name)
     }
     const cmdText = await (cmd.handler(cmd.args))
     const prompt = await mudParser.wrapCommand(cmdText)
     // clog.log('cmd.result:', { result: cmdText, prompt })
+
 
     const output = await gptLib.reply(prompt)
     return output.output
@@ -110,9 +142,17 @@ class MudParser {
 
   public async look(args: string[] | undefined): Promise<string> {
     if (args) {
-      return `examine ${args.join(' ')}`
+      return `look at ${args.join(' ')}`
     } else {
       return `look`
+    }
+  }
+
+  public async take(args: string[] | undefined): Promise<string> {
+    if (args) {
+      return `take the ${args.join(' ')}`
+    } else {
+      return `take`
     }
   }
 

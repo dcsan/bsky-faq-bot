@@ -1,7 +1,7 @@
 // test for dispatcher with mock bot
 // import assert from "assert";
 
-import { mudParser } from "../commands/mudCommands";
+import { mudParser } from "../commands/mudParser";
 // import { AppConfig } from "../utils/AppConfig";
 // import { gptLib } from "src/services/GptLib";
 
