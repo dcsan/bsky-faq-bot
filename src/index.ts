@@ -5,8 +5,43 @@ import { atToWeb } from "./utils/atHelpers";
 
 import { AppConfig } from "./utils/AppConfig";
 import { faqManager } from "./models/FaqManager";
+import { MockBot } from "./test/MockBot";
 
 dotenv.config();
+const clog = console
+
+const replyCache: { [key: string]: string } = {};
+
+const localConfig = {
+  pollInterval: 5000
+}
+
+// async so we can have multiple pings and bots
+// TODO - DB
+async function checkCache(cid: string): Promise<string | undefined> {
+  if (replyCache[cid]) {
+    clog.log('already handled', cid, replyCache[cid])
+    return replyCache[cid];
+  }
+  replyCache[cid] = 'x' // handled - fill in value later
+  return undefined;
+}
+
+async function processReply(event: any, bot: BskyBot | MockBot) {
+  const { post } = event;
+  const handled = await checkCache(post.cid);
+  if (handled) {
+    return
+  }
+
+  console.log(`mention=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
+  await bot.like(post);
+  await bot.follow(post.author.did);
+  await handleInput(event, bot)
+
+}
+
+
 
 async function main() {
   const handle = AppConfig.BOT_HANDLE;
@@ -28,29 +63,34 @@ async function main() {
 
   // await bot.post({ text: "bot sez hello world" });
 
+
   bot.setHandler(Events.MENTION, async (event) => {
-    const { post } = event;
-    console.log(`new mention \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
-    await bot.like(post);
-
-    // const { user } = event;
-    // await bot.follow(user.did);
-
-    await handleInput(event, bot)
-    // TODO chatGPT etc
+    clog.log('[mention] event', event)
+    await processReply(event, bot)
   });
 
   bot.setHandler(Events.REPLY, async (event) => {
-    const { post } = event;
-    await bot.like(post);
-    console.log(`\n--\ngot reply from: `, post.author.handle);
-    console.log(`uri: `, atToWeb(post.uri));
-    console.log(`text: `, post.text);
-    post.mentions.forEach((mention) => {
-      console.log(`mention`, mention);
-    });
+    clog.log('[reply] event', event)
+    await processReply(event, bot)
+    // const { post } = event;
+    // const handled = await checkCache(post.cid);
+    // if (handled) {
+    //   clog.log('[reply] already handled', post.cid)
+    //   return
+    // }
 
-    console.log('post =>', JSON.stringify(post, null, 2));
+    // console.log(`reply=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
+    // console.log(`uri: `, atToWeb(post.uri));
+    // console.log('post =>', JSON.stringify(post, null, 2));
+
+    // await bot.like(post);
+    // await bot.follow(post.author.did);
+    // await handleInput(event, bot)
+
+    // post.mentions.forEach((mention) => {
+    //   console.log(`mention`, mention);
+    // });
+
     // console.log(`post: https://staging.bsky.app/profile/${user.handle}`);
 
   });
@@ -64,7 +104,7 @@ async function main() {
 
   bot.startPolling({
     // interval: 10000,  // ms = 10s
-    interval: 5000,  // ms = 10s
+    interval: localConfig.pollInterval,  // ms = 10s
   }); // start polling for events
   console.log("bot started polling:", botOwner);
 }

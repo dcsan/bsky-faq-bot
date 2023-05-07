@@ -8,9 +8,13 @@ export class MockBot {
   //   this.reply = this.reply.bind(this);
   // }
   reply(text: string, post?: any) {
-    // ignore post for now
     this.lastReply = text;
-    // console.log(`mockBot.reply: ${text}`);
+  }
+  follow(text: string, post?: any) {
+    this.lastReply = text;
+  }
+  like(text: string, post?: any) {
+    this.lastReply = text;
   }
 }
 

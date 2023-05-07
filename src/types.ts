@@ -27,11 +27,11 @@ export type GptReply = {
 
 export type MudCommand = {
   name: string;
-  keys: string[]
+  keys: string[] // aliases for many keys
+  arg?: string;
   input?: string
   description?: string;
   help?: string
   type?: 'gpt' | 'text' | 'error'
-  args?: string[];
-  handler?: (args: string[] | undefined) => Promise<string>;
+  handler?: (arg: string | undefined) => Promise<string>;
 }

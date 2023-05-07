@@ -87,9 +87,9 @@ class MudParser {
       return undefined
     }
 
-    let after = content.split(key)[1];  // everything after the key
-    after = after.trim()
-    const args = after.split(' ');
+    let arg = content.split(key)[1];  // everything after the key
+    arg = arg.trim()
+    // const args = after.split(' ');
     // clog.log({ after, args })
 
     // @ts-ignore
@@ -101,7 +101,7 @@ class MudParser {
       return undefined;
     }
     const result = {
-      args,
+      arg,
       // handler,
       input,
       ...cmd,
@@ -121,7 +121,7 @@ class MudParser {
     if (!cmd.handler) {
       throw new Error('no handler for cmd:' + cmd.name)
     }
-    const cmdText = await (cmd.handler(cmd.args))
+    const cmdText = await (cmd.handler(cmd.arg))
     const prompt = await mudParser.wrapCommand(cmdText)
     // clog.log('cmd.result:', { result: cmdText, prompt })
 
@@ -130,27 +130,27 @@ class MudParser {
     return output.output
   }
 
-  public async help(args: string[] | undefined): Promise<string> {
+  public async help(arg: string | undefined): Promise<string> {
     clog.log('help.cmd')
-    return `help ${args}`
+    return `help ${arg}`
   }
 
-  public async go(args: string[] | undefined): Promise<string> {
+  public async go(arg: string | undefined): Promise<string> {
     clog.log('go.cmd')
-    return `go ${args}`
+    return `go ${arg}`
   }
 
-  public async look(args: string[] | undefined): Promise<string> {
-    if (args) {
-      return `look at ${args.join(' ')}`
+  public async look(arg: string | undefined): Promise<string> {
+    if (arg) {
+      return `look at ${arg}`
     } else {
       return `look`
     }
   }
 
-  public async take(args: string[] | undefined): Promise<string> {
-    if (args) {
-      return `take the ${args.join(' ')}`
+  public async take(arg: string | undefined): Promise<string> {
+    if (arg) {
+      return `take the ${arg}`
     } else {
       return `take`
     }
