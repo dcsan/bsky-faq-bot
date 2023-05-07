@@ -6,12 +6,14 @@ import { mudParser } from "../commands/mudCommands";
 
 const clog = console
 
+const testList = [
+  { input: '/help', name: 'help', args: [''] },
+  { input: '/go north', name: 'go', args: ['north'] },
+  { input: '/go south', name: 'go', args: ['south'] },
+]
+
 async function testMudCommands() {
-  const testList = [
-    { input: '/help', name: 'help', args: [''] },
-    { input: '/go north', name: 'go', args: ['north'] },
-    { input: '/go south', name: 'go', args: ['south'] },
-  ]
+  clog.log('testMudCommands:', testList.length)
 
   for (let item of testList) {
     const input = item.input;
@@ -25,9 +27,11 @@ async function testMudCommands() {
       console.error(`name mismatch: ${found.name} !== ${item.name}`)
       console.warn({ item, found })
     }
-    if (found.args && found.args[0] != item.args[0]) {
+    else if (found.args && found.args[0] != item.args[0]) {
       console.error(`args mismatch: ${found.args} !== ${item.args}`)
       console.warn({ item, found })
+    } else {
+      console.log('✅ ', item.input)
     }
   }
 

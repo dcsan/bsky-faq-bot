@@ -55,12 +55,13 @@ class MudParser {
     let after = content.split(key)[1];  // everything after the key
     after = after.trim()
     const args = after.split(' ');
-    clog.log({ after, args })
+    // clog.log({ after, args })
 
     // @ts-ignore
     const handler: any = this[cmd.func]
 
-    clog.log(`cmd key: ${key}, arg: ${after} `)
+    // clog.log(`cmd key: ${key}, arg: ${after} `)
+
     if (!key) {
       return undefined;
     }
