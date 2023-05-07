@@ -57,9 +57,8 @@ class MudParser {
     let content = input
     if (input.includes(AppConfig.BOT_HANDLE)) {
       const parts = input.split(AppConfig.BOT_HANDLE)
-      let content
       if (parts.length == 1) {
-        content = input
+        content = input // actually its just the name then?
       } else if (parts.length == 2) {
         // @name rest = 2 parts
         const [name, rest] = parts
@@ -69,7 +68,7 @@ class MudParser {
         const [before, name, rest] = parts
         content = rest
       }
-      clog.log('parseForBotName:', { name, content })
+      clog.log('parseForBotName:', content)
     } else {
       content = input
     }
