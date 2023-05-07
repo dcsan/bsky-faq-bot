@@ -28,7 +28,8 @@ class GptLib {
       model: "text-davinci-003",
       prompt,
       max_tokens: 250, // 250 characters?
-      temperature: 0.2,
+      // temperature: 0.2,
+      temperature: 1.5, // more random
     }
     const completion = await this.openai.createCompletion(request)
     const data: CreateCompletionResponse = completion.data

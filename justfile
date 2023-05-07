@@ -59,6 +59,9 @@ fly-stop:
 
 # --- testing -----
 
+test-cmds: cls
+  ts-node src/test/mudCommands.test.ts
+
 test-faq-replies: cls
   ts-node src/test/dispatcher.test.ts
 

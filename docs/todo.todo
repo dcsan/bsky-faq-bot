@@ -10,6 +10,8 @@ Infra:
   ☐ switch to JEST for testing
   ☐ topics list summary?
 
+  ☐ split on botname? just take the part after as input? > eg IDK but @faqbot what do you think?
+
   ☐ finetune custom GPT model
 
   ☐ send images

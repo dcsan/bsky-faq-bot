@@ -59,12 +59,12 @@
   ],
   [
     "1",
-    "What is a DID?",
+    "What is a DID? / whats DID",
     "DID",
-    "did",
+    "decentralized ID",
     "DIDs are unique global identifiers which strongly identify repositories",
-    "95",
-    "https://atproto.com/docs",
+    "104",
+    "https://atproto.com/specs/did-plc",
     "docs"
   ],
   [
@@ -334,8 +334,8 @@
     "What's the difference with Mastodon",
     "mastodon",
     "mastodon",
-    "Mastodon is based on ActivityPub and we wanted to take a new approach with ATProto",
-    "136",
+    "Mastodon is based on ActivityPub and we wanted to take a new approach with ATProto. see ATproto or ActivityPub topics",
+    "171",
     "https://atproto.com/guides/faq#why-not-use-activitypub"
   ],
   [
@@ -357,35 +357,82 @@
     "https://staging.bsky.app/profile/emily.bsky.team/post/3juzzcgz7jd2t"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "Is there a user ranking?",
+    "user ranking",
+    "ranking",
+    "checkout Koivo",
+    "61",
+    "https://directory.koivo.co/?ordering=-followers"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "How can I unroll threads?",
+    "unroll",
+    "unroll",
+    "just tag @unroll.bsky.social in a thread and wait a bit!",
+    "126",
+    "https://staging.bsky.app/profile/unroll.bsky.social/post/3jv3nhrow7h23"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "Can I get a users skeets in an RSS feed?",
+    "rss",
+    "rss feed",
+    "just use this:\nhttps://bsky.link/feed?user= \nand add the user handle",
+    "114",
+    "https://bsky.link/feed?user=faqbot.bsky.social"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "Where can I see latest stats?",
+    "stats",
+    "stats",
+    "Check here for the latests on signups!",
+    "70",
+    "https://stats.bsky.ealmuina.xyz/"
+  ],
+  [
+    "1",
+    "What do they mean by ropes",
+    "ropes",
+    "rope / ropes",
+    "Instead of threads, bsky has 'ropes'",
+    "36"
+  ],
+  [
+    "1",
+    "Where can I find out about the AT ecossytem?",
+    "ecosystem",
+    "at ecosystem",
+    "Check this site for a list of ecosystem links and resources",
+    "94",
+    "https://ecosystem.elborai.software/"
+  ],
+  [
+    "1",
+    "How do i use a domain name as a handle",
+    "domain-name handle",
+    "DNS handle / domain name",
+    "read this blog to see how to set your domain name as a bluesky handle",
+    "129",
+    "https://blueskyweb.xyz/blog/4-28-2023-domain-handle-tutorial"
+  ],
+  [
+    "1",
+    "How can I tune my timeline or moderation algorithm?",
+    "custom mod algo",
+    "custom timeline / custom moderation / custom algorithm",
+    "Head over to skyline.gay where you can use AI filtering on the skyline. Here's one I made for more signal less noise https://skyline.gay/?tl=8jci8",
+    "165",
+    "https://skyline.gay"
+  ],
+  [
+    "1",
+    "What does skyline mean?",
+    "skyline",
+    "skyline",
+    "Alternate to \"timeline\"",
+    "23"
   ]
 ]
