@@ -34,7 +34,7 @@ class MudParser {
         handler: this.go,
       },
       {
-        keys: ['/look'],
+        keys: ['/look', '/inspect', '/examine', '/search', '/find', '/read', '/listen', '/smell', '/taste'],
         name: 'look',
         handler: this.look,
       },
@@ -42,16 +42,33 @@ class MudParser {
         name: 'take',
         keys: ['/take', '/get', '/pickup'],
         handler: this.take,
-      }
+      },
+      {
+        name: 'use',
+        keys: ['/use', '/open', '/unlock'],
+        handler: this.take,
+      },
+
     ]
     this.cmdList = cmdList
   }
 
-  parseForBotName(input: string) {
-    let content
+  stripBotName(input: string): string {
+    let content = input
     if (input.includes(AppConfig.BOT_HANDLE)) {
-      const [name, rest] = input.split(AppConfig.BOT_HANDLE)
-      content = rest.trim()
+      const parts = input.split(AppConfig.BOT_HANDLE)
+      let content
+      if (parts.length == 1) {
+        content = input
+      } else if (parts.length == 2) {
+        // @name rest = 2 parts
+        const [name, rest] = parts
+        content = rest
+      } else {
+        // ok @name rest = 3 parts
+        const [before, name, rest] = parts
+        content = rest
+      }
       clog.log('parseForBotName:', { name, content })
     } else {
       content = input
@@ -75,13 +92,16 @@ class MudParser {
       return
     }
 
-    const content = this.parseForBotName(input)
+    // const content = input
+    const content = this.stripBotName(input) // bot name is never passed
+
     let key = content.split(' ')[0];
 
     // first one
     const cmd = this.cmdList.find((cmd) => {
       return cmd.keys.includes(key)
     })
+
     if (!cmd) {
       clog.warn('no cmd found for:', key)
       return undefined
