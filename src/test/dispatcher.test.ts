@@ -4,6 +4,8 @@
 import { MockBot, MockEvent } from "./MockBot";
 import { handleInput } from "../commands/dispatcher";
 import { faqManager } from "../models/FaqManager";
+import { PostParam } from "easy-bsky-bot-sdk";
+import { PostParams } from "easy-bsky-bot-sdk/lib/post";
 
 const clog = console
 const testBot = new MockBot();
@@ -25,8 +27,8 @@ async function checkHandleInput(
     text: input
   })
   testBot.reset()
-  const actual = await handleInput(event, testBot) // reply is stashed in mockbot
-  return assertMatch(input, expected, actual, msg)
+  const actual: PostParams | undefined = await handleInput(event, testBot) // reply is stashed in mockbot
+  return assertMatch(input, expected, actual?.text, msg)
 }
 
 /**
@@ -41,8 +43,9 @@ async function checkFaqReply(
   expected: string | undefined,
   msg?: string
 ): Promise<boolean> {
-  const actual = await faqManager.getReplyText(input)
-  return assertMatch(input, expected, actual, msg)
+  const actual: PostParam | undefined = await faqManager.getReplyPost(input)
+  const text = actual?.text
+  return assertMatch(input, expected, text, msg)
 }
 
 /**

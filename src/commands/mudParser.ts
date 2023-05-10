@@ -2,6 +2,7 @@ import { gptLib } from "../services/GptLib";
 import { MudCommand } from "../types";
 import { AppConfig } from "../utils/AppConfig";
 import { mudWrapper } from "./mudPrompts";
+import { PostParams } from "easy-bsky-bot-sdk/lib/post";
 
 
 const clog = console
@@ -75,14 +76,16 @@ class MudParser {
     return content
   }
 
-  async parseRespond(input: string): Promise<string | undefined> {
+  async parseRespond(input: string): Promise<PostParams | undefined> {
     const found = await mudParser.parseCommand(input);
     if (!found) {
       return undefined
     }
     const output: string = await mudParser.runCommand(found)
     clog.log('mud response=>\n', { input, found, output })
-    return output
+    return {
+      text: output
+    }
   }
 
   async parseCommand(input: string): Promise<MudCommand | undefined> {

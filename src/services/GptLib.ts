@@ -7,6 +7,7 @@ import {
   CreateCompletionResponse,
   CreateCompletionRequest
 } from "openai"
+import { PostParams } from "easy-bsky-bot-sdk/lib/post";
 const clog = console
 
 class GptLib {
@@ -72,9 +73,11 @@ class GptLib {
     // return text?.trim()
   }
 
-  async getReplyText(input: string): Promise<string | undefined> {
+  async getReplyPost(input: string): Promise<PostParams | undefined> {
     const response = await this.reply(input)
-    return response.output
+    return {
+      text: response.output
+    }
   }
 
 }

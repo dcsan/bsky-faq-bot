@@ -30,6 +30,9 @@ build: cls clean
 run: cls build
   npm run start
 
+# compile botsdk package and run bot
+pack-run: dev-prepare run
+
 # --- deployment ----
 
 fetch-deploy: cls faqs-fetch deploy
@@ -37,14 +40,12 @@ fetch-deploy: cls faqs-fetch deploy
 deploy: build fly-resume
   fly deploy
 
-# remove local bot module
-# npm i easy-bsky-bot-sdk
 # use botsdk from DCs build at github.com:dcsan/easy-bsky-bot-sdk.git
-deploy-prepare:
+prod-prepare:
   npm uninstall easy-bsky-bot-sdk
   npm i https://github.com/dcsan/easy-bsky-bot-sdk
 
-# update bot module assuming path is ../easy-bsky-bot-sdk
+# use local dev version of bot SDK assuming path is ../easy-bsky-bot-sdk
 dev-prepare:
   npm uninstall easy-bsky-bot-sdk
   cd ../easy-bsky-bot-sdk && npm run build
@@ -58,6 +59,14 @@ fly-stop:
 
 fly-resume:
   flyctl scale count 1
+
+
+# use a different .env file via symlink
+switch-env newenv:
+  -mv .env .env.old
+  @echo "switching to {{newenv}}"
+  ln -s {{newenv}} .env
+  ls -lah .env*
 
 # --- testing -----
 

@@ -31,13 +31,17 @@ async function processReply(event: any, bot: BskyBot | MockBot) {
   const { post } = event;
   const handled = await checkCache(post.cid);
   if (handled) {
+    // dont handle twice
     return
   }
 
-  console.log(`mention=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
-  await bot.like(post);
-  await bot.follow(post.author.did);
+  clog.log(`mention=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
   await handleInput(event, bot)
+
+  // dont await for these
+  bot.like(post);
+  // TODO - do not follow if already following
+  bot.follow(post.author.did);
 
 }
 
@@ -52,12 +56,13 @@ async function main() {
     contact: handle,
   };
 
-  // console.log('botOwner', botOwner);
+  // clog.log('botOwner', botOwner);
   BskyBot.setOwner(botOwner);
 
   const bot = new BskyBot({
     handle: handle,
     replyToNonFollowers: true,
+    showPolling: true
   });
   await bot.login(password);
 
@@ -79,34 +84,34 @@ async function main() {
     //   return
     // }
 
-    // console.log(`reply=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
-    // console.log(`uri: `, atToWeb(post.uri));
-    // console.log('post =>', JSON.stringify(post, null, 2));
+    // clog.log(`reply=> \nfrom: ${post.author.handle} \ntext: [${post.text}]`);
+    // clog.log(`uri: `, atToWeb(post.uri));
+    // clog.log('post =>', JSON.stringify(post, null, 2));
 
     // await bot.like(post);
     // await bot.follow(post.author.did);
     // await handleInput(event, bot)
 
     // post.mentions.forEach((mention) => {
-    //   console.log(`mention`, mention);
+    //   clog.log(`mention`, mention);
     // });
 
-    // console.log(`post: https://staging.bsky.app/profile/${user.handle}`);
+    // clog.log(`post: https://staging.bsky.app/profile/${user.handle}`);
 
   });
 
   bot.setHandler(Events.FOLLOW, async (event) => {
     const { user } = event;
     await bot.follow(user.did);
-    console.log(`\n--\nnew follow: ${user.handle}`);
-    console.log(` uri: https://staging.bsky.app/profile/${user.handle}`);
+    clog.log(`\n--\nnew follow: ${user.handle}`);
+    clog.log(` uri: https://staging.bsky.app/profile/${user.handle}`);
   });
 
   bot.startPolling({
     // interval: 10000,  // ms = 10s
     interval: localConfig.pollInterval,  // ms = 10s
   }); // start polling for events
-  console.log("bot started polling:", botOwner);
+  clog.log("bot started polling:", botOwner);
 }
 
 main().catch((err) => {

@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "easy-bsky-bot-sdk": "github:dcsan/easy-bsky-bot-sdk",
+    "easy-bsky-bot-sdk": "file:../easy-bsky-bot-sdk",
     "googleapis": "^118.0.0",
     "lodash": "^4.17.21",
     "openai": "^3.2.1",

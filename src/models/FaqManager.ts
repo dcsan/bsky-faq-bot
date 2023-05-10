@@ -5,8 +5,13 @@ import { readValues } from '../utils/sheets'
 import _ from 'lodash'
 import { stringSimilarity } from "string-similarity-js";
 
+import { PostParam } from 'easy-bsky-bot-sdk'
+
+
 // flat array of faqs from sheets
 import faqsRaw from "../data/faqs.json"
+import { BskyBot } from 'easy-bsky-bot-sdk'
+import { PostParams } from 'easy-bsky-bot-sdk/lib/post'
 
 const clog = console
 
@@ -177,9 +182,17 @@ class FaqManager {
     clog.log('faqData', this.faqData)
   }
 
-  formatFaqReply(faq: Faq): string {
+  /**
+   * merge fields into a single text response
+   * @param faq
+   * @returns
+   */
+  formatTextReply(faq: Faq): string {
     const url = faq.linkUrl ? `\n🌐⇢ ${faq.linkUrl}` : ''
-    const reply = `👀❓ [${faq.topic}]\n🤖💬 ${faq.answer} ${url}`
+    let reply = `👀❓ [${faq.topic}]\n🤖💬 ${faq.answer} ${url}`
+    if (faq.author) {
+      reply += `\n👨‍💻 ${faq.author}`
+    }
     return reply
   }
 
@@ -199,17 +212,43 @@ class FaqManager {
   /**
    * @description find a faq by keyword or the 'sorry no reply' message
    */
-  async getReplyText(input: string): Promise<string | undefined> {
+  // async getReplyText(input: string): Promise<string | undefined> {
+  //   const faq = await this.searchFaq(input)
+  //   if (faq) {
+  //     return this.formatTextReply(faq)
+  //   }
+  //   return undefined
+  //   // if (!faq) return this.notFoundReply(input)
+  // }
+
+  /**
+   * search all faq methods
+   */
+  async searchFaq(input: string): Promise<Faq | undefined> {
     const cleaned: string = input.trim().toLowerCase();
     const faq =
       await this.findFaqByQuestions(cleaned) ||
       await this.findFaqByKeywords(cleaned)
+    return faq
+  }
 
-    if (faq) {
-      return this.formatFaqReply(faq)
+  async formatFullReply(faq: Faq): Promise<PostParams> {
+    const text = this.formatTextReply(faq)
+
+    const post: PostParam = {
+      text,
+      imageUrl: faq.imageUrl, // IF exists
+      imageAlt: faq.imageAlt,
     }
-    return undefined
-    // if (!faq) return this.notFoundReply(input)
+    clog.log('formatFullReply', post)
+    return post
+  }
+
+  async getReplyPost(input: string): Promise<PostParams | undefined> {
+    const faq = await this.searchFaq(input)
+    if (faq) {
+      return await this.formatFullReply(faq)
+    }
   }
 
 
