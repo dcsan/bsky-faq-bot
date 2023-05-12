@@ -1,6 +1,7 @@
 // test for dispatcher with mock bot
 // import assert from "assert";
 
+import { PostParams } from "easy-bsky-bot-sdk/lib/post";
 import { mudParser } from "../commands/mudParser";
 // import { AppConfig } from "../utils/AppConfig";
 // import { gptLib } from "src/services/GptLib";
@@ -41,13 +42,13 @@ async function testMudCommands() {
     }
 
     console.log('✅ ', item.input)
-    const output: string = await mudParser.runCommand(found)
+    const postReply: PostParams | undefined = await mudParser.runCommand(found)
     // if (!cmdText) {
     //   console.error('no result for:', item)
     //   continue
     // }
 
-    clog.log('output:', output)
+    clog.log('output:', postReply)
   }
 
 }

@@ -1,7 +1,8 @@
+import { genImage } from "../services/StabAi";
 import { gptLib } from "../services/GptLib";
 import { MudCommand } from "../types";
 import { AppConfig } from "../utils/AppConfig";
-import { mudWrapper } from "./mudPrompts";
+import { mudInstruction } from "./mudPrompts";
 import { PostParams } from "easy-bsky-bot-sdk/lib/post";
 
 
@@ -16,6 +17,10 @@ const clog = console
 
 // TODO: /drop /inventory /help
 
+const localConfig = {
+  instruction: mudInstruction // system message on each prompt
+}
+
 class MudParser {
 
   cmdList: MudCommand[]
@@ -29,11 +34,13 @@ class MudParser {
         help: '[help]\ncommands are: \n/go <direction> \n/look <item>\n/take <item>',
         type: 'text'
       },
+
       {
         keys: ['/go'],
         name: 'go',
         handler: this.go,
       },
+
       {
         keys: ['/look', '/inspect', '/examine', '/search', '/find', '/read', '/listen', '/smell', '/taste'],
         name: 'look',
@@ -77,15 +84,15 @@ class MudParser {
   }
 
   async parseRespond(input: string): Promise<PostParams | undefined> {
+
     const found = await mudParser.parseCommand(input);
     if (!found) {
       return undefined
     }
-    const output: string = await mudParser.runCommand(found)
-    clog.log('mud response=>\n', { input, found, output })
-    return {
-      text: output
-    }
+
+    const postReply: PostParams | undefined = await mudParser.runCommand(found)
+    clog.log('mud response=>\n', { input, found, postReply })
+    return postReply
   }
 
   async parseCommand(input: string): Promise<MudCommand | undefined> {
@@ -134,10 +141,12 @@ class MudParser {
 
   }
 
-  public async runCommand(cmd: MudCommand): Promise<string> {
+  public async runCommand(cmd: MudCommand): Promise<PostParams | undefined> {
 
     if (cmd.type === 'text') {
-      return cmd.help!
+      return {
+        text: cmd.help!
+      }
     }
 
     if (!cmd.handler) {
@@ -146,10 +155,20 @@ class MudParser {
     const cmdText = await (cmd.handler(cmd.arg))
     const prompt = await mudParser.wrapCommand(cmdText)
     // clog.log('cmd.result:', { result: cmdText, prompt })
+    const response = await gptLib.reply(prompt, localConfig.instruction)
 
+    let postReply: PostParams = {
+      text: response.output
+    }
 
-    const output = await gptLib.reply(prompt)
-    return output.output
+    // for look commands lets grab an image
+    if (cmd.name === 'look') {
+      const paths: string[] = await genImage(response.output)
+      postReply.imageUrl = paths[0]
+      postReply.imageAlt = response.output
+    }
+
+    return postReply
   }
 
   public async help(arg: string | undefined): Promise<string> {
@@ -179,8 +198,9 @@ class MudParser {
   }
 
   async wrapCommand(text: string) {
-    const output = mudWrapper.replace('[USER_COMMAND]', text)
-    return output
+    return text
+    // const output = localConfig.instruction.replace('[USER_COMMAND]', text)
+    // return output
   }
 
 }

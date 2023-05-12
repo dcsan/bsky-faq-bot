@@ -17,7 +17,7 @@
     "1",
     "how to lookup a DID? / how do I find a DID from a handle?",
     "lookup did",
-    "lookup did",
+    "lookup DID / permanent DID / did lookup",
     "Just replace the handle in  a link like this and you can find a permanent DID for a user, useful if they change their handle:\nhttps://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=dcsan.xyz",
     "202"
   ],
@@ -25,7 +25,7 @@
     "1",
     "What's a skeet? / What's the word for Tweet?",
     "skeet",
-    "skeet / post / tweet",
+    "skeet / post / tweet / Bluesky users / Skyline",
     "adopted by bluesky users instead of Tweets or Posts. Skyline has skeets!",
     "72"
   ],
@@ -33,7 +33,7 @@
     "1",
     "What's TPOT",
     "TPOT",
-    "tpot",
+    "TPOT / Twitter / self-referential / meme",
     "That part of TPOT. or twitter. self referential meme about a certain cluster of peeps that joined together",
     "106"
   ],
@@ -41,7 +41,7 @@
     "1",
     "What is AT Proto",
     "ATProto",
-    "at proto / atproto / at-proto",
+    "AT Proto / decentralized / social networking / protocol / support",
     "AT Proto is a protocol to support decentralized social networking",
     "89",
     "https://atproto.com/docs",
@@ -51,7 +51,7 @@
     "1",
     "What is a PDS?",
     "PDS",
-    "pds / personal data server",
+    "PDS / Personal Data Server / user data / network agent",
     "Personal Data Server (PDS): A server hosting user data. Acts as the user's personal agent on the network",
     "128",
     "https://atproto.com/docs",
@@ -61,7 +61,7 @@
     "1",
     "What is a DID? / whats DID",
     "DID",
-    "decentralized ID",
+    "DID / decentralized ID / unique / global / repositories",
     "DIDs are unique global identifiers which strongly identify repositories",
     "104",
     "https://atproto.com/specs/did-plc",
@@ -71,7 +71,7 @@
     "1",
     "looking into it",
     "looking into it",
-    "looking into it",
+    "looking into it / Jay / meme / steady lads",
     "another Jay meme. See \"steady lads\" ...",
     "39",
     "",
@@ -82,7 +82,7 @@
     "1",
     "What is skyline.gay",
     "skyline.gay",
-    "skyline.gay",
+    "skyline.gay / custom moderation / algorithms / lists / future",
     "first to launch custom moderation algos, and lists - definitely the future in terms of how we will be interacting with our skylines",
     "162",
     "https://skyline.gay",
@@ -95,7 +95,7 @@
     "1",
     "skeetstudio",
     "skeetstudio",
-    "skeetstudio",
+    "skeetstudio / skeet / facets / overloading",
     "overloading skeet facets",
     "59",
     "https://retr0.id/stuff/skeetstudio/"
@@ -112,15 +112,15 @@
     "1",
     "What's psky",
     "psky",
-    "psky",
+    "psky / previews / redirect",
     "a service to show previews of blueksy skeets. also handles redirect to staging (while needed)",
     "93"
   ],
   [
     "1",
     "test item",
-    "",
-    "",
+    "test item",
+    "test item",
     "test with no topic or keywords you shouldn't see",
     "48"
   ],
@@ -145,7 +145,10 @@
     "cluster / visualisation / social graph",
     "Check this site to see how we all cluster together",
     "73",
-    "https://bsky.jazco.dev/"
+    "https://bsky.jazco.dev/",
+    "",
+    "https://cdn.bsky.social/imgproxy/u5XuOiqoT6pt3ng-lkn1gqbeMx379r0ybmySIYqzt3c/rs:fit:2000:2000:1:0/plain/bafkreicczuo2ut2xir4qhugwpr4gsmfwmhpiv5qtkcdjxkpv76wf56ggge@jpeg",
+    "clusterduck"
   ],
   [
     "1",
@@ -234,7 +237,7 @@
     "1",
     "What is hellthread",
     "hellthread",
-    "hellthread",
+    "hellthread / long thread / notifications / Berduck / warning",
     "A super long thread that broke the site. Berduck kept replying. You could not leave but kept getting notifications. \ncaveat emptor! ⚠️",
     "157",
     "https://hellthread.club"
@@ -243,7 +246,7 @@
     "1",
     "What is parasocial",
     "parasocial",
-    "parasocial",
+    "parasocial / pseudo social / online relationships",
     "pseudo social online relationships",
     "34"
   ],
@@ -264,7 +267,7 @@
     "1",
     "what is whatsmid",
     "whatsmid",
-    "whatsmid",
+    "whatsmid / what's hot / requirements / likes",
     "Like whats hot but lower requirements\n- Older than 30 mins\n- Younger than 2 hours\n- >= 6 likes\n- <= 11 likes\n",
     "174",
     "https://staging.bsky.app/profile/whatsmid.bsky.social",
@@ -277,7 +280,7 @@
     "1",
     "what is skyspaces",
     "skyspaces",
-    "skyspaces / spaces / audio chat",
+    "skyspaces / Social Audio & Video / BlueSky",
     "Social Audio & Video for BlueSky",
     "108",
     "https://staging.bsky.app/profile/skyspaces.bsky.social",
@@ -290,7 +293,7 @@
     "1",
     "what is Plurigrid ",
     "plurigrid",
-    "plurigrid",
+    "Plurigrid / Poe / bartonus",
     "Check this out on Poe: https://poe.com/bartonus",
     "47"
   ],
@@ -298,7 +301,7 @@
     "1",
     "How do I get more invites",
     "invites",
-    "invites",
+    "get invites / get more invites",
     "Most invites are now given out through existing Bluesky users. New users get one invite every two weeks. We monitor the social graph, and give out more invites based on this\n\n",
     "201",
     "https://blueskyweb.xyz/faq"
@@ -307,7 +310,7 @@
     "1",
     "Who is on the board?",
     "board",
-    "board / PBLLC",
+    "board / Public Benefit LLC / Jay Graber / Jack Dorsey / Jeremie Miller",
     "Bluesky, the company, is a Public Benefit LLC. It is owned by Jay Graber and the Bluesky team. Jack Dorsey and Jeremie Miller serve on the board, along with Jay. ",
     "162"
   ],
@@ -315,7 +318,7 @@
     "1",
     "Why use invite codes? / Why use invites?",
     "why invites",
-    "why invites / why codes / why invite codes",
+    "invite codes / sign-ups / why invites / why invite only",
     "Social networks can be abused. It’s much easier to limit sign-ups than to try to retroactively clean up rampant network abuse.",
     "126"
   ],
@@ -323,7 +326,7 @@
     "1",
     "What's your plan for moderation?",
     "moderation",
-    "moderation",
+    "moderation / automated filtering / admin actions / community labeling / filtering",
     "three-fold: automated filtering, manual admin actions, and community labeling. Open and composable labeling will allow anyone to define and apply labels",
     "200",
     "https://blueskyweb.xyz/blog/4-13-2023-moderation"
@@ -332,7 +335,7 @@
     "1",
     "Where can I see the technical docs?",
     "tech docs",
-    "tech docs",
+    "technical docs / ATProto website / tech docs",
     "check on the ATProto website",
     "58",
     "https://atproto.com/guides/faq"
@@ -341,7 +344,7 @@
     "1",
     "Why not use ActivityPub?",
     "ActivityPub",
-    "ActivityPub",
+    "ActivityPub / account portability / signed data repos / DIDs",
     "Account portability is the major reason. It protects users. Our solution requires both signed data repos and DIDs",
     "167",
     "https://atproto.com/guides/faq#why-not-use-activitypub"
@@ -359,7 +362,7 @@
     "1",
     "Where can I see all the FAQs?",
     "faq topics",
-    "topics / topiclist",
+    "topics / topiclist / topic list",
     "You can see / add / edit on this google sheet!",
     "129",
     "https://docs.google.com/spreadsheets/d/1RZ7ZDRXiZhu4fI65955gIAAuHNTf9__7ntHb2R65w3Q"
@@ -498,42 +501,96 @@
   [
     "1",
     "How can I see my likes",
-    "likes",
-    "likes",
+    "view likes",
+    "see likes / view likes",
     "@graysky.app shows a likes tab on profile pages",
     "106",
     "https://staging.bsky.app/profile/prer.at/post/3jv5dfxgekb2m"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "How do I change my handle?",
+    "handle managament",
+    "change handle",
+    "You can change your handle by purchasing a domain through providers like GoDaddy and updating your DNS records.",
+    "111"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "What is a handle?",
+    "handles",
+    "handle",
+    "You have two unique identifiers. Your username, which can be edited, or your handle, which must be a verified domain name controlled by you.",
+    "140"
   ],
   [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "0"
+    "1",
+    "How can I block a user?",
+    "user privacy",
+    "how to block",
+    "Blocks have recently been implemented. Tap the context menu and you'll find it under Mute.",
+    "90"
   ],
   [
+    "1",
+    "How do I report inappropriate content?",
+    "content moderation",
+    "report content",
+    "Click the three dots ... on a profile or skeet to report it",
+    "59"
+  ],
+  [
+    "1",
+    "What is a cluster?",
+    "social connections",
+    "what cluster",
+    "A cluster is a visualization of a user's social graph, connections, and relationships.",
+    "86",
     "",
     "",
+    "https://cdn.bsky.social/imgproxy/u5XuOiqoT6pt3ng-lkn1gqbeMx379r0ybmySIYqzt3c/rs:fit:2000:2000:1:0/plain/bafkreicczuo2ut2xir4qhugwpr4gsmfwmhpiv5qtkcdjxkpv76wf56ggge@jpeg"
+  ],
+  [
+    "1",
+    "Can I import my contacts from other platforms?",
+    "data import",
+    "import contacts",
+    "Natively no, but there are projects in the works that allow you to import your Twitter follow list.",
+    "99"
+  ],
+  [
+    "1",
+    "What are the privacy settings on Bluesky?",
+    "privacy controls",
+    "privacy settings",
+    "Here is a link to the Bluesky Privacy Policy https://bsky.app/support/privacy",
+    "77"
+  ],
+  [
+    "1",
+    "How can I customize my profile?",
+    "profile customization",
+    "customize profile",
+    "Tap your profile icon then tap \"Edit Profile\"",
+    "45"
+  ],
+  [
+    "1",
+    "Where can I download Blueskey",
+    "technical requirements",
+    "download Bluesky",
+    "Bluesky apps are available on iOS, Android as well as through various Github projects.",
+    "86"
+  ],
+  [
+    "1",
+    "Does Bluesky have a logo?",
+    "logo",
+    "logo",
+    "Not really! Just a blue square right now.",
+    "41",
     "",
     "",
-    "",
-    "0"
+    "https://cdn.bsky.social/imgproxy/kePulgVtD28-oW_QI5QJ-_E2lnhSQD0WBfv4cc2UCwY/rs:fit:2000:2000:1:0/plain/bafkreif76luck3jcncyyj7cngr2psco3lcauesutozc6bvlfrn37dy7k74@jpeg"
   ]
 ]

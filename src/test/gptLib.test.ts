@@ -2,23 +2,29 @@
 // import assert from "assert";
 
 
+import { mudInstruction } from "../commands/mudPrompts";
 import { gptLib } from "../services/GptLib";
 
 const clog = console
 
+const localConfig = {
+  instructions: mudInstruction
+}
 
 async function testGptLib() {
 
   const checks = [
     // "whats your name",
     // "You're in front of a small cave. Are you going to go in or look around?",
-    "Who was Einstein?",
-    "What should I skeet about?"
+    // "Who was Einstein?",
+    // "What should I skeet about?",
+    "/go north",
+    "/look",
   ]
 
   for (const input of checks) {
     clog.log('testing', { input })
-    const result = await gptLib.reply(input)
+    const result = await gptLib.reply(input, localConfig.instructions)
     clog.log('gpt', { input, result })
   }
 }
@@ -43,8 +49,8 @@ async function testExpansions() {
 }
 
 async function main() {
-  // await testGptLib().catch(console.log)
-  await testExpansions().catch(console.log)
+  await testGptLib().catch(console.log)
+  // await testExpansions().catch(console.log)
 }
 
 main()

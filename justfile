@@ -35,7 +35,10 @@ pack-run: dev-prepare run
 
 # --- deployment ----
 
-fetch-deploy: cls faqs-fetch deploy
+fetch-deploy: cls faqs-fetch deploy fly-logs
+
+fly-logs:
+  fly logs
 
 deploy: build fly-resume
   fly deploy

@@ -24,9 +24,10 @@ const AppConfig = {
   EXPANSIONS: [
     ['woa', ' wrong answers only'],
     ['quackity', ' talk like a duck'],
-  ]
+  ],
+
+  STABILITY_API_KEY: env('STABILITY_API_KEY'),
 
 }
-
 
 export { AppConfig }
