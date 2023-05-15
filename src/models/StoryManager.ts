@@ -27,20 +27,32 @@ type Scene = {
 
 
 const localConfig = {
-  // style: 'retroFuture'
-  style: 'futureNoir'
-
+  // style: 'retroFuture',
+  // style: 'futureNoir',
+  style: 'animeNoir',
+  maxScenes: 20  // limit rendering for testing
 }
 
 const styleTags =
   `
 <style type="text/css" rel="stylesheet">
+  .body {
+    background-color: #000000;
+  }
+  .div {
+    color: #FFFFFF;
+  }
   .dialog {
     font-style: italic;
     color: #CCCCFF;
   }
   .caption {
+    color: #FFFFAA;
     font-style: italic;
+  }
+  .lyrics {
+    text-transform: uppercase;
+    color: #ccFFCC;
   }
 </style>
 `
@@ -51,18 +63,27 @@ class StoryManager {
   replacers: repItem[] = []
   scenes: Scene[]
   storyFile: string // path to story
-  basePath = `../data/story`
+  relPath = `../../storybd`
   renderPath: string
   dataPath: string
 
   constructor() {
-    this.dataPath = path.join(__dirname, this.basePath, 'data')
-    this.renderPath = path.join(__dirname, this.basePath, 'renders', `${Date.now()}`)
+    this.dataPath = path.join(__dirname, this.relPath, 'data')
+    this.renderPath = path.join(__dirname, this.relPath, 'renders', `${Date.now()}`)
     ensureDir(this.renderPath)
     ensureDir(this.dataPath)
     this.storyFile = path.join(this.renderPath, `story.md`)
     clog.log('storyPath', this.renderPath)
   }
+
+  newStory() {
+    this.addLine('# Story\n')
+    this.addLine(styleTags)
+    this.addLine(`style: ${localConfig.style}\n`)
+    // this.addLine(`styleVal: ${this.getStyle()}\n`)
+    return this.storyFile
+  }
+
 
   async loadAll() {
     this.replacers = this.readFile('replacers', 'blob')
@@ -183,34 +204,31 @@ class StoryManager {
     })
   }
 
-  newStory() {
-    this.addLine('# Story\n')
-    this.addLine(styleTags)
-    return this.storyFile
+
+  getStyle() {
+    const styleItem = this.replacers.find(x => x.key == localConfig.style)
+    const styleVal = styleItem?.val
+    return styleVal
   }
 
   async renderImage(prompt: string, scene: string) {
-    const style = this.replacers.find(x => x.key === localConfig.style)
-    prompt = `${prompt} ${style?.val}`
+    const styleVal = this.getStyle()
+    prompt = `${prompt} ${styleVal}`
     const outDir = path.join(this.renderPath, scene)
     ensureDir(outDir)
     const images = await genImage(prompt, outDir)
     const fullPath = images[0]
     const localPath = this.convertPath(fullPath)
-    clog.log('render:', prompt, localPath)
+    clog.log('render:', { prompt, styleVal, fullPath, localPath })
     return localPath
   }
 
   convertPath(fullPath: string) {
-    // ConvertPath ../data/story/16841162670091684116267020/img-0.png
     const parts = fullPath.split('/')
     let localPath = parts.slice(-2).join('/')
     localPath = `./${localPath}`
-    clog.log('convertPath', { fullPath, localPath, storyPath: this.renderPath })
+    // clog.log('convertPath', { fullPath, localPath, storyPath: this.renderPath })
     return localPath
-    // const file = parts.
-    // clog.log('convertPath', fullPath, localPath)
-    // return localPath
   }
 
   addLine(line: string, type: string = '') {
@@ -243,6 +261,7 @@ class StoryManager {
     this.storyFile = storyFile
     let currentScene = ''
     let sceneCount = 0
+    const maxScenes = localConfig.maxScenes
 
     for (let line of this.scenes) {
 
@@ -258,14 +277,14 @@ class StoryManager {
         const caption = line.caption || line.drawing || prompt.slice(0, 20)
         this.addDetails(caption, prompt)
         this.addLine(line.description)
-        if (sceneCount++ > 2) break // testing
+        if (sceneCount++ > maxScenes) break // testing
       } else {
         this.addLine(line.caption, '> ')
         this.addLine(line.description)
       }
 
-      line.dialog && this.addBlock(`${line.actor || 'actor'}: _${line.dialog}_`, 'dialog')
-      this.addLine(line.lyrics, '> ')
+      line.dialog && this.addBlock(`${line.actor || 'actor'}: ${line.dialog}`, 'dialog')
+      this.addLine(line.lyrics, 'lyrics')
     }
 
     clog.log('wrote', storyFile)
