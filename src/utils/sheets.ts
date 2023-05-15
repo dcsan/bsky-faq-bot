@@ -22,12 +22,13 @@ async function googleAuth() {
 
 }
 
-async function readValues(tabName: string = 'faqData') {
+async function readValues(tabName: string = 'faqData', sheetId?: string) {
+  sheetId = sheetId || AppConfig.FAQ_SHEET_ID
   const sheetsApi = await googleAuth()
   const query = `${tabName}!A1:Z1000`
   clog.log('readValues:', query)
   const res = await sheetsApi.spreadsheets.values.get({
-    spreadsheetId: AppConfig.FAQ_SHEET_ID,
+    spreadsheetId: sheetId,
     range: query,
   });
 

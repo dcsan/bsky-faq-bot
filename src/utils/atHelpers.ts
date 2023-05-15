@@ -23,6 +23,7 @@ export const paginateAll = async <T extends { cursor?: string }>(
 
 export const getUserCreatedAt = async (actor: string) => {
   // source: https://github.com/mimonelu/klearsky/blob/079746c1c1a03d3a9f0961bdb69bb223dcb106c3/src/composables/main-state.ts#L98
+  // @ts-ignore
   const log = await fetch(`https://plc.directory/${actor}/log/audit`);
   const logJson = await log.json();
   const createdAt = logJson[0]?.createdAt;

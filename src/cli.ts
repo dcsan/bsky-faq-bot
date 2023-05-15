@@ -1,4 +1,5 @@
 import { faqManager } from './models/FaqManager'
+import { storyManager } from './models/StoryManager'
 const clog = console
 
 async function main() {
@@ -12,6 +13,24 @@ async function main() {
 
     case 'faqs-show':
       await faqManager.showFaqs()
+      break;
+
+    case 'story-fetch-all':
+      await storyManager.fetchAll()
+      break;
+
+    case 'story-parse-scenes':
+      await storyManager.parseScenes()
+      break;
+
+    case 'story-redo':
+      await storyManager.fetchAll()
+      await storyManager.parseScenes()
+      break;
+
+    case 'story-render':
+      await storyManager.parseScenes()
+      await storyManager.renderScenes()
       break;
 
     default:

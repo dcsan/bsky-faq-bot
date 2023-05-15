@@ -1,6 +1,8 @@
 build/
 temp/
 
+src/data/story
+
 # dotenv environment variable files
 .env
 .env.*

@@ -13,10 +13,7 @@
     "strict": true,
     "baseUrl": "./",
     "lib": [
-      "es5",
-      "es6",
-      "dom",
-      "es2018.promise"
+      "es2021"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
