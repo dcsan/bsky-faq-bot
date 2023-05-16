@@ -14,49 +14,44 @@ const testList = [
   { input: '/go south', name: 'go', arg: 'south' },
 ]
 
-async function testMudCommands() {
-  clog.log('testMudCommands:', testList.length)
+describe("test mudCommands", () => {
+  test("handle simple commands", async () => {
 
-  for (let item of testList) {
-    const input = item.input;
-    clog.log('\n-- item:', item.input)
+    clog.log('testMudCommands:', testList.length)
 
-    const found = await mudParser.parseCommand(input);
-    if (!found) {
-      clog.error('no cmd found for:', item)
-      return
+    for (let item of testList) {
+      const input = item.input;
+      clog.log('\n-- item:', item.input)
+
+      const found = await mudParser.parseCommand(input);
+      if (!found) {
+        clog.error('no cmd found for:', item)
+        return
+      }
+      if (found.name !== item.name) {
+        console.error(`name mismatch: ${found.name} !== ${item.name}`)
+        console.warn({ item, found })
+        continue
+      }
+      if (found.arg && found.arg != item.arg) {
+        console.error(`args mismatch: ${found.arg} !== ${item.arg}`)
+        console.warn({ item, found })
+        continue
+      }
+      if (!found.handler) {
+        console.error(`handler not found:`, item, found)
+        continue
+      }
+
+      console.log('✅ ', item.input)
+      const postReply: PostParams | undefined = await mudParser.runCommand(found)
+      // if (!cmdText) {
+      //   console.error('no result for:', item)
+      //   continue
+      // }
+
+      clog.log('output:', postReply)
     }
-    if (found.name !== item.name) {
-      console.error(`name mismatch: ${found.name} !== ${item.name}`)
-      console.warn({ item, found })
-      continue
-    }
-    if (found.arg && found.arg != item.arg) {
-      console.error(`args mismatch: ${found.arg} !== ${item.arg}`)
-      console.warn({ item, found })
-      continue
-    }
-    if (!found.handler) {
-      console.error(`handler not found:`, item, found)
-      continue
-    }
+  })
 
-    console.log('✅ ', item.input)
-    const postReply: PostParams | undefined = await mudParser.runCommand(found)
-    // if (!cmdText) {
-    //   console.error('no result for:', item)
-    //   continue
-    // }
-
-    clog.log('output:', postReply)
-  }
-
-}
-
-async function main() {
-  testMudCommands();
-}
-
-main().catch((err) => {
-  console.error(err);
 })

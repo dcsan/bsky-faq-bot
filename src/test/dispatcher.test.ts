@@ -81,49 +81,42 @@ function assertMatch(
 
 }
 
+describe("test dispatcher", () => {
+  test("should handle inputs", async () => {
 
-async function testDispatcher() {
-  const checks = [
-    // input, expect, msg
+    const checks = [
+      // input, expect, msg
 
-    // based on full question matches / string sim
-    await checkHandleInput("what's a did", '👀❓ [DID]', '[DID] faq failed'),
-    await checkHandleInput("what is a did", '👀❓ [DID]', '[DID] faq failed'),
-    await checkHandleInput("What is a PDS", '👀❓ [PDS]', '[PDS] faq failed'),
-    await checkHandleInput("What's psky", '👀❓ [psky]', '[psky] faq failed'),
+      // based on full question matches / string sim
+      await checkHandleInput("what's a did", '👀❓ [DID]', '[DID] faq failed'),
+      await checkHandleInput("what is a did", '👀❓ [DID]', '[DID] faq failed'),
+      await checkHandleInput("What is a PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+      await checkHandleInput("What's psky", '👀❓ [psky]', '[psky] faq failed'),
 
-    await checkHandleInput("what in the world is a DID I wonder", '👀❓ [DID]', '[DID] long '),
-    await checkHandleInput("onboarding guide", '👀❓ [getting started]'),
-    await checkHandleInput("newbie", '👀❓ [getting started]'),
+      await checkHandleInput("what in the world is a DID I wonder", '👀❓ [DID]', '[DID] long '),
+      await checkHandleInput("onboarding guide", '👀❓ [getting started]'),
+      await checkHandleInput("newbie", '👀❓ [getting started]'),
 
-    // single word keyword items
-    await checkHandleInput("DID", '👀❓ [DID]', '[DID] faq failed'),
-    await checkHandleInput("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
-    await checkHandleInput("skeet", '👀❓ [skeet]', 'Skeet faq failed'),
-    await checkHandleInput("why honk?", '👀❓ [honk]', 'HONK faq failed'),
-    await checkHandleInput("honk", '👀❓ [honk]', 'HONK faq failed'),
-    await checkHandleInput("What the hell is a skeet", '👀❓ [skeet]', 'Skeet faq failed'),
+      // single word keyword items
+      await checkHandleInput("DID", '👀❓ [DID]', '[DID] faq failed'),
+      await checkHandleInput("PDS", '👀❓ [PDS]', '[PDS] faq failed'),
+      await checkHandleInput("skeet", '👀❓ [skeet]', 'Skeet faq failed'),
+      await checkHandleInput("why honk?", '👀❓ [honk]', 'HONK faq failed'),
+      await checkHandleInput("honk", '👀❓ [honk]', 'HONK faq failed'),
+      await checkHandleInput("What the hell is a skeet", '👀❓ [skeet]', 'Skeet faq failed'),
 
-    // check not existing items are passed thru
-    await checkFaqReply("i do not exist", undefined, 'found non-existent faq'),
+      // check not existing items are passed thru
+      await checkFaqReply("i do not exist", undefined, 'found non-existent faq'),
 
-    // keywords with boundaries
-    await checkFaqReply("tell me about shitposting", undefined, 'should NOT match shitposting (on post/skeet)'),
-    await checkFaqReply("tell me a post", '👀❓ [skeet]', 'SHOULD match on post'),
-    await checkFaqReply("Why not use ActivityPub?", '👀❓ [ActivityPub]', 'punctuation on user keyword input'),
+      // keywords with boundaries
+      await checkFaqReply("tell me about shitposting", undefined, 'should NOT match shitposting (on post/skeet)'),
+      await checkFaqReply("tell me a post", '👀❓ [skeet]', 'SHOULD match on post'),
+      await checkFaqReply("Why not use ActivityPub?", '👀❓ [ActivityPub]', 'punctuation on user keyword input'),
 
-  ]
-  await Promise.all(checks)
-  // clog.log(checks)
-  // clog.log('testDispatcher passed')
-}
-
-async function main() {
-  await testDispatcher().then(res => {
-    console.log('done');
-  }).catch(err => {
-    console.log('err', err);
+    ]
+    await Promise.all(checks)
+    // clog.log(checks)
+    // clog.log('testDispatcher passed')
   })
-}
 
-main()
+})

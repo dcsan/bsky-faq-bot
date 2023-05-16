@@ -73,6 +73,10 @@ switch-env newenv:
 
 # --- testing -----
 
+# testing using jest / one file
+test-textUtils:
+  npm test -- src/test/textUtils.test.ts
+
 test-cmds: cls
   ts-node src/test/mudCommands.test.ts
 

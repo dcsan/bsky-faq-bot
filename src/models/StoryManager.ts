@@ -30,7 +30,7 @@ const localConfig = {
   styleName: 'retroFuture',
   // styleName: 'animeNoir',
   // styleName: 'futureNoir',
-  maxScenes: 0  // limit for testing or 0 for no limit
+  maxScenes: 10  // limit for testing or 0 for no limit
 }
 
 const styleTags =
@@ -57,6 +57,10 @@ const styleTags =
 </style>
 `
 
+function shortSentence(line: string, wordCount = 5) {
+  if (!line) return ''
+  return line.split(' ').slice(0, wordCount).join(' ')
+}
 
 class StoryManager {
 
@@ -85,7 +89,6 @@ class StoryManager {
     return this.storyFile
   }
 
-
   async loadAll() {
     this.replacers = this.readFile('replacers', 'blob')
     this.scenes = this.readFile('scenes', 'blob')
@@ -102,8 +105,10 @@ class StoryManager {
       const blob = JSON.parse(data)
       clog.log('blob', layer, blob)
       for (let line of blob) {
+        const key = line.key.toLowerCase()
         const item = {
-          key: line.key, val: line.val
+          key,
+          val: line.val
         }
         this.replacers.push(item)
       }
@@ -285,18 +290,19 @@ class StoryManager {
 
       const prompt = line.expanded
       if (line.drawing) {
+        this.addLine(line.description)
+
         const imgPath = await this.renderImage(prompt, currentScene)
         this.addLine(`<img src='${imgPath}' alt='${prompt}' />`)
-        const caption = line.caption || line.drawing || prompt.slice(0, 20)
+        const caption = line.caption || line.drawing || shortSentence(line.description)
         this.addDetails(caption, prompt)
-        this.addLine(line.description)
         if (sceneCount++ > maxScenes) break // testing
       } else {
-        this.addLine(line.caption, '> ')
         this.addLine(line.description)
+        this.addLine(line.caption)
       }
 
-      line.dialog && this.addBlock(`${line.actor || 'actor'}: ${line.dialog}`, 'dialog')
+      line.dialog && this.addBlock(`> ${line.actor || 'actor'}: ${line.dialog}`, 'dialog')
       this.addLine(line.lyrics, 'lyrics')
     }
 

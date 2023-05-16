@@ -11,23 +11,6 @@ const localConfig = {
   instructions: mudInstruction
 }
 
-async function testGptLib() {
-
-  const checks = [
-    // "whats your name",
-    // "You're in front of a small cave. Are you going to go in or look around?",
-    // "Who was Einstein?",
-    // "What should I skeet about?",
-    "/go north",
-    "/look",
-  ]
-
-  for (const input of checks) {
-    clog.log('testing', { input })
-    const result = await gptLib.reply(input, localConfig.instructions)
-    clog.log('gpt', { input, result })
-  }
-}
 
 function assertMatch(actual: string, expect: string): boolean {
   if (actual.startsWith(expect)) return true
@@ -37,20 +20,35 @@ function assertMatch(actual: string, expect: string): boolean {
   throw new Error(`expect: ${actual} to start with ${expect}`)
 }
 
-async function testExpansions() {
-  const checks = [
-    ["whats your name? WOA", "whats your name?  wrong answers only"],
-    ["whats your name? #WOA", "whats your name? # wrong answers only"],
-  ]
-  for (const [input, expected] of checks) {
-    const actual = gptLib.expansions(input)
-    assertMatch(actual, expected)
-  }
-}
 
-async function main() {
-  await testGptLib().catch(console.log)
-  // await testExpansions().catch(console.log)
-}
+describe("test gptLib", () => {
+  test("commands", async () => {
 
-main()
+    const checks = [
+      // "whats your name",
+      // "You're in front of a small cave. Are you going to go in or look around?",
+      // "Who was Einstein?",
+      // "What should I skeet about?",
+      "/go north",
+      "/look",
+    ]
+
+    for (const input of checks) {
+      clog.log('testing', { input })
+      const result = await gptLib.reply(input, localConfig.instructions)
+      clog.log('gpt', { input, result })
+    }
+  })
+
+  test('expansions', async () => {
+    const checks = [
+      ["whats your name? WOA", "whats your name?  wrong answers only"],
+      ["whats your name? #WOA", "whats your name? # wrong answers only"],
+    ]
+    for (const [input, expected] of checks) {
+      const actual = gptLib.expansions(input)
+      assertMatch(actual, expected)
+    }
+  })
+
+})
