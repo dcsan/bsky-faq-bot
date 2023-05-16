@@ -27,9 +27,9 @@ type Scene = {
 
 
 const localConfig = {
-  // styleName: 'retroFuture',
+  styleName: 'retroFuture',
   // styleName: 'animeNoir',
-  styleName: 'futureNoir',
+  // styleName: 'futureNoir',
   maxScenes: 0  // limit for testing or 0 for no limit
 }
 
@@ -95,7 +95,7 @@ class StoryManager {
 
   async parseReplacers() {
     const layers = [
-      'actors', 'locations', 'styles'
+      'actors', 'locations', 'styles', 'items'
     ]
     for (let layer of layers) {
       const data = await fs.readFileSync(this.storyDataPath(layer, 'blob'), 'utf8')
@@ -118,6 +118,7 @@ class StoryManager {
       'actors',
       'locations',
       'styles',
+      'items',
       'scenes',
     ]
     for (let tabName of tabs) {
