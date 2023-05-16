@@ -102,16 +102,16 @@ faqs-show: cls
 #--- story data ----
 
 story-fetch-parse: cls
-  ts-node src/cli.ts story-fetch-parse
+  time ts-node src/cli.ts story-fetch-parse
 
 story-parse-scenes: cls
-  ts-node src/cli.ts story-parse-scenes
+  time ts-node src/cli.ts story-parse-scenes
 
 story-redo: cls story-fetch-parse story-render
   echo "done"
 
 story-render: cls
-  ts-node src/cli.ts story-render
+  time ts-node src/cli.ts story-render
 
 story-html5 mdfile='/Users/dc/dev/bsky/bsky-faq-bot/src/data/story/1684126037240/story.md': cls
   pandoc --from=markdown --to=html5 --output=test.html ${mdfile}

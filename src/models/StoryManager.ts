@@ -27,10 +27,18 @@ type Scene = {
 
 
 const localConfig = {
-  styleName: 'retroFuture',
-  // styleName: 'animeNoir',
-  // styleName: 'futureNoir',
-  maxScenes: 10  // limit for testing or 0 for no limit
+  // styleName: 'animenoir',
+  // styleName: 'fullanime',
+  // styleName: 'anime2',
+  // styleName: 'anime3',
+  // styleName: 'anime6',
+  // styleName: 'animblur',
+  styleName: 'movie1',
+  // styleName: 'retrofuture',
+  // styleName: 'futurenoir',
+  // styleName: 'surreal',
+  // maxScenes: 10  // limit for testing or 0 for no limit
+  maxScenes: 5  // limit for testing or 0 for no limit
 }
 
 const styleTags =
@@ -53,6 +61,8 @@ const styleTags =
   .lyrics {
     text-transform: uppercase;
     color: #ccFFCC;
+    border: 1px solid blue;
+    padding-left: 15px;
   }
 </style>
 `
@@ -188,6 +198,19 @@ class StoryManager {
     return out
   }
 
+  findVal(key: string) {
+    if (!key || !key.trim()) {
+      clog.warn('findVal: no/empty key')
+      return ''
+    }
+    key = key.toLowerCase().trim()
+    const pair = this.replacers.find(x => x.key === key)
+    if (pair) {
+      return pair.val
+    }
+    return key
+  }
+
   async parseScenes() {
     await this.loadAll()
     // clog.log('loaded scenes', this.scenes)
@@ -196,16 +219,17 @@ class StoryManager {
     let sceneName = ''
     for (let line of scenes) {
 
-      if (!line.drawing) continue
       if (line.name) {
         sceneName = line.name
       }
-      line.name = line.name || sceneName
-      const expanded = this.doReplace(line.drawing)
-      clog.log('\n\n--- scene.name:', sceneName)
-      clog.log('-- before:\n ', line.drawing)
-      clog.log('-- after: \n', expanded)
-      line.expanded = expanded
+      if (line.drawing) {
+        line.name = line.name || sceneName
+        const expanded = this.doReplace(line.drawing)
+        clog.log('\n\n--- scene.name:', sceneName)
+        clog.log('-- before:\n ', line.drawing)
+        clog.log('-- after: \n', expanded)
+        line.expanded = expanded
+      }
       // clog.log(line)
     }
 
@@ -275,20 +299,26 @@ class StoryManager {
     await this.loadAll()
     const storyFile = this.newStory()
     this.storyFile = storyFile
-    let currentScene = ''
     let sceneCount = 0
     const maxScenes = localConfig.maxScenes || 1000
     this.scenes = await this.readFile('scenes', 'final')
+    let currentScene = ''
 
     for (let line of this.scenes) {
 
-      if (line.name && line.name.trim() !== currentScene) {
+      if (line.name &&
+        (line.name.trim() !== currentScene)) {
         // new scene
-        currentScene = line.name
-        this.addLine(`\n\n# ${line.name} \n`)
+        const oldScene = currentScene
+        currentScene = line.name.trim()
+        clog.log('newScene:', { oldScene, currentScene, line })
+        this.addLine(`\n\n# ${currentScene}\n`)
       }
 
-      const prompt = line.expanded
+      const location = line.location
+      const locationDesc = this.findVal(location)
+      const prompt = [locationDesc, ' ', line.expanded].join(' ')
+
       if (line.drawing) {
         this.addLine(line.description)
 
