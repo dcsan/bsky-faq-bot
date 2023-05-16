@@ -97,14 +97,14 @@ faqs-show: cls
 
 #--- story data ----
 
-story-fetch-all: cls
-  ts-node src/cli.ts story-fetch-all
+story-fetch-parse: cls
+  ts-node src/cli.ts story-fetch-parse
 
 story-parse-scenes: cls
   ts-node src/cli.ts story-parse-scenes
 
-story-redo: cls
-  ts-node src/cli.ts story-redo
+story-redo: cls story-fetch-parse story-render
+  echo "done"
 
 story-render: cls
   ts-node src/cli.ts story-render

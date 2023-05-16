@@ -27,10 +27,10 @@ type Scene = {
 
 
 const localConfig = {
-  // style: 'retroFuture',
-  // style: 'futureNoir',
-  style: 'animeNoir',
-  maxScenes: 20  // limit rendering for testing
+  // styleName: 'retroFuture',
+  // styleName: 'animeNoir',
+  styleName: 'futureNoir',
+  maxScenes: 0  // limit for testing or 0 for no limit
 }
 
 const styleTags =
@@ -79,8 +79,9 @@ class StoryManager {
   newStory() {
     this.addLine('# Story\n')
     this.addLine(styleTags)
-    this.addLine(`style: ${localConfig.style}\n`)
-    // this.addLine(`styleVal: ${this.getStyle()}\n`)
+    this.addLine(`styleName: ${localConfig.styleName}\n`)
+    this.addLine(`styleValue: ${this.getStyle()}\n`)
+    // TODO add datestamp
     return this.storyFile
   }
 
@@ -88,9 +89,11 @@ class StoryManager {
   async loadAll() {
     this.replacers = this.readFile('replacers', 'blob')
     this.scenes = this.readFile('scenes', 'blob')
+    clog.log('loaded scenes:', this.scenes.length)
+    clog.log('loaded replacers:', this.replacers.length)
   }
 
-  async buildReplacers() {
+  async parseReplacers() {
     const layers = [
       'actors', 'locations', 'styles'
     ]
@@ -126,7 +129,7 @@ class StoryManager {
       this.writeFile(tabName, 'blob', blob)
       clog.log('wrote:', tabName)
     }
-    await this.buildReplacers()
+    await this.parseReplacers()
   }
 
   /**
@@ -137,13 +140,15 @@ class StoryManager {
    */
   async formatRawData(headers: string[], data: any[]) {
     const lines = []
+    let count = 0
     for (let row of data) {
       const line: any = {}
       for (let i = 0; i < headers.length; i++) {
         const header = headers[i]
-        const value = row[i]
+        const value = row[i] ? row[i].trim() : ''
         line[header] = value
       }
+      line['row'] = count++
       lines.push(line)
     }
     return lines
@@ -192,21 +197,25 @@ class StoryManager {
       line.name = line.name || sceneName
       const expanded = this.doReplace(line.drawing)
       clog.log('\n\n--- scene.name:', sceneName)
-      clog.log('before:', line.drawing)
-      clog.log('after:', expanded)
+      clog.log('-- before:\n ', line.drawing)
+      clog.log('-- after: \n', expanded)
       line.expanded = expanded
-      clog.log(line)
+      // clog.log(line)
     }
 
-    clog.log('this.scenes', scenes)
     this.scenes = this.scenes.filter(line => {
       if (line.name || line.location || line.description || line.drawing || line.dialog || line.lyrics) return true
     })
+    clog.log('parsed scenes', scenes.length)
+    await this.writeFile('scenes', 'final', this.scenes)
   }
 
 
   getStyle() {
-    const styleItem = this.replacers.find(x => x.key == localConfig.style)
+    const styleItem = this.replacers.find(x => x.key == localConfig.styleName)
+    if (!styleItem) {
+      throw new Error(`style not found: ${localConfig.styleName}`)
+    }
     const styleVal = styleItem?.val
     return styleVal
   }
@@ -219,7 +228,7 @@ class StoryManager {
     const images = await genImage(prompt, outDir)
     const fullPath = images[0]
     const localPath = this.convertPath(fullPath)
-    clog.log('render:', { prompt, styleVal, fullPath, localPath })
+    clog.log('renderImage:', { prompt, styleVal, fullPath, localPath })
     return localPath
   }
 
@@ -257,15 +266,18 @@ class StoryManager {
   }
 
   async renderScenes() {
+    await this.loadAll()
     const storyFile = this.newStory()
     this.storyFile = storyFile
     let currentScene = ''
     let sceneCount = 0
-    const maxScenes = localConfig.maxScenes
+    const maxScenes = localConfig.maxScenes || 1000
+    this.scenes = await this.readFile('scenes', 'final')
 
     for (let line of this.scenes) {
 
-      if (line.name) {
+      if (line.name && line.name.trim() !== currentScene) {
+        // new scene
         currentScene = line.name
         this.addLine(`\n\n# ${line.name} \n`)
       }

@@ -8,6 +8,8 @@ const localConfig = {
   engineId: 'stable-diffusion-xl-beta-v2-2-2',
 }
 
+const clog = console
+
 export async function genImage(prompt: string, outDir?: string): Promise<string[]> {
 
   // const engineId = 'stable-diffusion-v1-5'
@@ -43,7 +45,10 @@ export async function genImage(prompt: string, outDir?: string): Promise<string[
   )
 
   if (!response.ok) {
-    throw new Error(`Non-200 response: ${await response.text()}`)
+    // TODO retry
+    clog.error(`Non-200 response: ${await response.text()}`)
+    clog.log('input', { prompt })
+    return [""]
   }
 
   interface GenerationResponse {

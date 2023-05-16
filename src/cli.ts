@@ -15,21 +15,16 @@ async function main() {
       await faqManager.showFaqs()
       break;
 
-    case 'story-fetch-all':
+    case 'story-fetch-parse':
       await storyManager.fetchAll()
+      await storyManager.parseScenes()
       break;
 
     case 'story-parse-scenes':
       await storyManager.parseScenes()
       break;
 
-    case 'story-redo':
-      await storyManager.fetchAll()
-      await storyManager.parseScenes()
-      break;
-
     case 'story-render':
-      await storyManager.parseScenes()
       await storyManager.renderScenes()
       break;
 

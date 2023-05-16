@@ -28,10 +28,10 @@ class FaqManager {
   constructor() {
     // for writing
     this.faqPath = path.join(__dirname, '../data/faqs.json')
-    this.loadFaqs()
   }
 
   async init() {
+    // only called at runtime of main bot
     this.loadFaqs()
   }
 

@@ -1,11 +1,11 @@
 import * as dotenv from "dotenv";
 import { BskyBot, Events } from "easy-bsky-bot-sdk";
 import { handleInput } from "./commands/dispatcher";
-import { atToWeb } from "./utils/atHelpers";
+// import { atToWeb } from "./utils/atHelpers";
 
 import { AppConfig } from "./utils/AppConfig";
-import { faqManager } from "./models/FaqManager";
 import { MockBot } from "./test/MockBot";
+import { faqManager } from "./models/FaqManager";
 
 dotenv.config();
 const clog = console
@@ -50,6 +50,7 @@ async function processReply(event: any, bot: BskyBot | MockBot) {
 async function main() {
   const handle = AppConfig.BOT_HANDLE;
   const password = AppConfig.BOT_PASSWORD;
+  await faqManager.init()
 
   const botOwner = await {
     handle,
