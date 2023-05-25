@@ -3,6 +3,10 @@ temp/
 
 src/data/story
 
+# nested subrepos
+storybd
+storybd-pub
+
 # dotenv environment variable files
 .env
 .env.*

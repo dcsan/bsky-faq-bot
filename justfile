@@ -101,20 +101,29 @@ faqs-show: cls
 
 #--- story data ----
 
+# fetch from google sheets and parse
 story-fetch-parse: cls
   time ts-node src/cli.ts story-fetch-parse
 
+# parse scenes from fetched data
 story-parse-scenes: cls
   time ts-node src/cli.ts story-parse-scenes
 
+# fetch and render
 story-redo: cls story-fetch-parse story-render
   echo "done"
 
+# render story images
 story-render: cls
   time ts-node src/cli.ts story-render
 
-story-html5 mdfile='/Users/dc/dev/bsky/bsky-faq-bot/src/data/story/1684126037240/story.md': cls
+story-html5 mdfile='data/story/1684126037240/story.md': cls
   pandoc --from=markdown --to=html5 --output=test.html ${mdfile}
+
+story-deploy: cls
+  cd storybd-pub && time fly deploy
+
+
 
 
 #--- docker ----

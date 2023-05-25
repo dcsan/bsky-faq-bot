@@ -1,9 +1,28 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import * as fse from 'fs-extra'
+
 import { AppConfig } from "../utils/AppConfig";
 import { readValues } from "../utils/sheets";
 import { genImage } from '../services/StabAi';
 import { ensureDir } from '../utils/localFiles';
+
+const testRun = false
+
+const localConfig = {
+  // styleName: 'animenoir',
+  styleName: 'retrofuture',
+  // styleName: 'futurenoir',
+  // styleName: 'surreal',
+  // styleName: 'fullanime',
+  // styleName: 'anime2',
+  // styleName: 'anime3',
+  // styleName: 'anime6',
+  // styleName: 'animblur',
+  // styleName: 'movie1',
+  // maxScenes: 10  // limit for testing or 0 for no limit
+  maxScenes: testRun ? 10 : 5000  // limit for testing or 0 for no limit
+}
 
 const clog = console
 
@@ -23,49 +42,12 @@ type Scene = {
   caption: string
   actor: string
   lyrics: string
+  song: string
+  row: string
 }
 
 
-const localConfig = {
-  // styleName: 'animenoir',
-  // styleName: 'fullanime',
-  // styleName: 'anime2',
-  // styleName: 'anime3',
-  // styleName: 'anime6',
-  // styleName: 'animblur',
-  styleName: 'movie1',
-  // styleName: 'retrofuture',
-  // styleName: 'futurenoir',
-  // styleName: 'surreal',
-  // maxScenes: 10  // limit for testing or 0 for no limit
-  maxScenes: 5  // limit for testing or 0 for no limit
-}
-
-const styleTags =
-  `
-<style type="text/css" rel="stylesheet">
-  .body {
-    background-color: #000000;
-  }
-  .div {
-    color: #FFFFFF;
-  }
-  .dialog {
-    font-style: italic;
-    color: #CCCCFF;
-  }
-  .caption {
-    color: #FFFFAA;
-    font-style: italic;
-  }
-  .lyrics {
-    text-transform: uppercase;
-    color: #ccFFCC;
-    border: 1px solid blue;
-    padding-left: 15px;
-  }
-</style>
-`
+// const styleTags = `<style type="text/css" rel="stylesheet" href="../story.css" ></style>`
 
 function shortSentence(line: string, wordCount = 5) {
   if (!line) return ''
@@ -86,22 +68,55 @@ class StoryManager {
     this.renderPath = path.join(__dirname, this.relPath, 'renders', `${Date.now()}`)
     ensureDir(this.renderPath)
     ensureDir(this.dataPath)
-    this.storyFile = path.join(this.renderPath, `story.md`)
-    clog.log('storyPath', this.renderPath)
+    this.storyFile = path.join(this.renderPath, `story.html`)
+    clog.log('storyFile', this.storyFile)
+
+    clog.log('render story with maxScenes:', localConfig.maxScenes)
+
   }
 
   newStory() {
-    this.addLine('# Story\n')
-    this.addLine(styleTags)
-    this.addLine(`styleName: ${localConfig.styleName}\n`)
-    this.addLine(`styleValue: ${this.getStyle()}\n`)
+    this.addHtmlHeader()
+    this.addHeading('Story', 'h1')
+    this.addDiv(`styleName: ${localConfig.styleName}\n`)
+    this.addDiv(`styleValue: ${this.getStyle()}\n`)
     // TODO add datestamp
     return this.storyFile
   }
 
+  /**
+   * after finished rendering an item
+   */
+  async endStory() {
+    await this.addHtmlFooter()
+    clog.log('finished story', this.renderPath)
+    await fse.copy(this.renderPath, path.join('./storybd-pub/public/latest'))
+    // fs.symlinkSync(this.renderPath, path.join('./storybd-pub/publc/latest'))
+  }
+
+  addHtmlHeader() {
+    const cssFile = path.join(__dirname, '../../storybd/shared/story.css')
+    const styleTags = fs.readFileSync(cssFile)
+    const externalCss = `<link rel="stylesheet" href="../shared/story.css">`
+    // const inlineCss = `<style>${styleTags}</style>`
+    const html = `<html>
+  <head>
+    <title>Story</title>
+    </head>
+    ${externalCss}
+    <body>
+`
+    this.addRaw(html)
+  }
+
+  addHtmlFooter() {
+    const html = `</body></html>`
+    this.addRaw(html)
+  }
+
   async loadAll() {
-    this.replacers = this.readFile('replacers', 'blob')
-    this.scenes = this.readFile('scenes', 'blob')
+    this.replacers = this.readFile('replacers', 'blob.json')
+    this.scenes = this.readFile('scenes', 'blob.json')
     clog.log('loaded scenes:', this.scenes.length)
     clog.log('loaded replacers:', this.replacers.length)
   }
@@ -111,7 +126,7 @@ class StoryManager {
       'actors', 'locations', 'styles', 'items'
     ]
     for (let layer of layers) {
-      const data = await fs.readFileSync(this.storyDataPath(layer, 'blob'), 'utf8')
+      const data = await fs.readFileSync(this.storyDataPath(layer, 'blob.json'), 'utf8')
       const blob = JSON.parse(data)
       clog.log('blob', layer, blob)
       for (let line of blob) {
@@ -124,7 +139,7 @@ class StoryManager {
       }
     }
     // clog.log('instItems', this.instItems)
-    await this.writeFile('replacers', 'blob', this.replacers)
+    await this.writeFile('replacers', 'blob.json', this.replacers)
     clog.log('wrote replacers')
   }
 
@@ -139,10 +154,10 @@ class StoryManager {
     for (let tabName of tabs) {
       clog.log('story.fetchAll', tabName)
       const raw = await readValues(tabName, AppConfig.STORY_SHEET_ID) as any[]
-      this.writeFile(tabName, 'raw', raw)
+      this.writeFile(tabName, 'raw.json', raw)
       const headers = raw.shift()
       const blob = await this.formatRawData(headers, raw)
-      this.writeFile(tabName, 'blob', blob)
+      this.writeFile(tabName, 'blob.json', blob)
       clog.log('wrote:', tabName)
     }
     await this.parseReplacers()
@@ -182,9 +197,11 @@ class StoryManager {
     return blob
   }
 
-  storyDataPath(tabName: string, partial: string) {
-    const ext = partial === 'md' ? 'md' : 'json'
-    return `${this.dataPath}/${tabName}.${partial}.${ext}`
+  storyDataPath(fileName: string, ext: string) {
+    // const plainTypes = ['md', 'html']
+    // these types don't have an extra ext
+    // let ext = (plainTypes.includes(partial)) ? '.json' : ''
+    return `${this.dataPath}/${fileName}.${ext}`
   }
 
   doReplace(text: string): string {
@@ -237,9 +254,8 @@ class StoryManager {
       if (line.name || line.location || line.description || line.drawing || line.dialog || line.lyrics) return true
     })
     clog.log('parsed scenes', scenes.length)
-    await this.writeFile('scenes', 'final', this.scenes)
+    await this.writeFile('scenes', 'final.json', this.scenes)
   }
-
 
   getStyle() {
     const styleItem = this.replacers.find(x => x.key == localConfig.styleName)
@@ -270,9 +286,29 @@ class StoryManager {
     return localPath
   }
 
-  addLine(line: string, type: string = '') {
+  addSong(name: string) {
+    const fpath = `../songs/${name}.mp3`
+    const item = `<audio controls>
+  <source src="${fpath}" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>`
+    this.addRaw(item)
+    return item
+  }
+
+  addHeading(text: string, tag = 'h2') {
+    this.addRaw(`<${tag}>${text}</${tag}>\n\n`)
+  }
+
+  addDiv(line: string, className: string = '') {
     if (!line) return
-    fs.appendFileSync(this.storyFile, `${line}\n\n`)
+    fs.appendFileSync(this.storyFile, `<div class='${className}'>${line}</div>\n\n`)
+  }
+
+  // without any tags
+  addRaw(line: string, type: string = 'div') {
+    if (!line) return
+    fs.appendFileSync(this.storyFile, `${line}\n`)
   }
 
   /**
@@ -281,18 +317,28 @@ class StoryManager {
    * @param summary
    */
   addDetails(summary: string, details: string,) {
-    const text = `
-<details details >
-  <summary>${summary || ''}</summary>
-  ${details}
-</details>
-`
-    this.addLine(text)
+    const text = `<details>
+    <summary>${summary || ''}</summary>
+    ${details}
+</details>`
+    this.addDiv(text)
   }
 
-  addBlock(text: string, style: string) {
-    const block = `<div class='${style}'>${text}</div>`
-    this.addLine(block)
+  // addBlock(text: string, style: string) {
+  //   const block = `< div class='${style}' > ${ text } </>`
+  //   this.addDiv(block)
+  // }
+
+  openRow(row: string) {
+    if (!row) return
+    const block =
+      `<div class='row'>\n<div class='rowCounter'>${row}</div>\n`
+    this.addRaw(block)
+  }
+
+  closeRow(row?: string) {
+    const block = `</div>`
+    this.addRaw(block)
   }
 
   async renderScenes() {
@@ -300,11 +346,12 @@ class StoryManager {
     const storyFile = this.newStory()
     this.storyFile = storyFile
     let sceneCount = 0
-    const maxScenes = localConfig.maxScenes || 1000
-    this.scenes = await this.readFile('scenes', 'final')
+    const maxScenes = localConfig.maxScenes
+    this.scenes = await this.readFile('scenes', 'final.json')
     let currentScene = ''
 
     for (let line of this.scenes) {
+      this.openRow(line.row)
 
       if (line.name &&
         (line.name.trim() !== currentScene)) {
@@ -312,7 +359,7 @@ class StoryManager {
         const oldScene = currentScene
         currentScene = line.name.trim()
         clog.log('newScene:', { oldScene, currentScene, line })
-        this.addLine(`\n\n# ${currentScene}\n`)
+        this.addHeading(currentScene, 'h2')
       }
 
       const location = line.location
@@ -320,21 +367,27 @@ class StoryManager {
       const prompt = [locationDesc, ' ', line.expanded].join(' ')
 
       if (line.drawing) {
-        this.addLine(line.description)
+        this.addDiv(line.description)
 
         const imgPath = await this.renderImage(prompt, currentScene)
-        this.addLine(`<img src='${imgPath}' alt='${prompt}' />`)
+        this.addRaw(`<img src='${imgPath}' alt='${prompt}' />`)
         const caption = line.caption || line.drawing || shortSentence(line.description)
         this.addDetails(caption, prompt)
         if (sceneCount++ > maxScenes) break // testing
       } else {
-        this.addLine(line.description)
-        this.addLine(line.caption)
+        this.addDiv(line.description)
+        this.addDiv(line.caption)
       }
 
-      line.dialog && this.addBlock(`> ${line.actor || 'actor'}: ${line.dialog}`, 'dialog')
-      this.addLine(line.lyrics, 'lyrics')
+      line.song && this.addSong(line.song)
+      line.dialog && this.addDiv(`${line.actor || 'actor'}: ${line.dialog}`, 'dialog')
+      this.addDiv(line.lyrics, 'lyrics')
+
+      this.closeRow(line.row)
+
     }
+
+    await this.endStory()
 
     clog.log('wrote', storyFile)
   }
@@ -344,4 +397,3 @@ class StoryManager {
 const storyManager = new StoryManager();
 
 export { storyManager }
-

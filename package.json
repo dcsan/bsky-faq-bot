@@ -11,6 +11,7 @@
   "author": "many",
   "license": "MIT",
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.194",
     "@types/node": "^18.16.3",
@@ -22,6 +23,7 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "easy-bsky-bot-sdk": "github:dcsan/easy-bsky-bot-sdk",
+    "fs-extra": "^11.1.1",
     "googleapis": "^118.0.0",
     "lodash": "^4.17.21",
     "openai": "^3.2.1",
